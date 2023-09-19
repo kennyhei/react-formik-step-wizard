@@ -6,8 +6,9 @@ function Final() {
   const [ truthy, setTruthy ] = useState(false)
 
   function toggle() {
-    setTruthy(!truthy)
-    setHideNext(truthy)
+    const res = !truthy
+    setTruthy(res)
+    setHideNext(res)
   }
 
   let data = {}

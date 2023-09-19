@@ -29,7 +29,7 @@ function WizardStepWrapper() {
         exit='exit'
         transition={{ type: 'tween', duration: 0.25 }}
       >
-        <div className='py-4 sm:pt-12 lg:pt-20'>
+        <div className='py-4 sm:pt-12 lg:pt-20 pb-20 sm:pb-32'>
           <div className='container mx-auto sm:px-0 px-5 max-w-lg min-w-min md:max-w-2xl lg:max-w-4xl'>
             {activeStep.component || (
               <DefaultStepContentRenderer

@@ -16,6 +16,8 @@ export function resolveHashStep(hashes) {
 export function updateHash(hashes, activeStep, setActiveStep) {
   const hash = Object.keys(hashes).find(key => hashes[key].id === activeStep.id)
   window.location.hash = hash
-  const step = resolveHashStep(hashes) || activeStep
-  setActiveStep(step)
+  const step = resolveHashStep(hashes)
+  if (step && step.id !== activeStep.id) {
+    setActiveStep(step)
+  }
 }
