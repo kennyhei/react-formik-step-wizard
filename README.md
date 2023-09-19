@@ -134,7 +134,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep.id, toStep.id, wizardValues)
+        console.log('step changed', fromStep.id, toStep?.id, wizardValues)
       }}
       onCompleted={values => {
         alert('wizard completed')
@@ -220,7 +220,7 @@ Now you can pass the list to `Wizard`:
 <Wizard
   steps={steps}
   onStepChanged={(fromStep, toStep, wizardValues) => {
-    console.log('step changed', fromStep.id, toStep.id, wizardValues)
+    console.log('step changed', fromStep.id, toStep?.id, wizardValues)
   }}
   onCompleted={values => console.log('wizard completed', values)}
 />
@@ -238,7 +238,7 @@ If we look at [Quickstart](#quickstart) example, then `onStepChanged` would prin
 After user has completed the wizard, `onStepChanged` and `onCompleted` would print this:
 
 ```js
-> step changed, StepFinal, StepFinal, { StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 } }
+> step changed, StepFinal, undefined, { StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 } }
 > wizard completed, { firstName: 'John', lastName: 'Doe', age: 30 }
 ```
 

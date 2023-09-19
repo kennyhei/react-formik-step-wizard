@@ -18,7 +18,7 @@ function App() {
         steps={steps}
         onCompleted={values => console.log('wizard completed',  values)}
         onStepChanged={(fromStep, toStep, wizardValues) => {
-          console.log('step changed', fromStep.id, toStep.id, wizardValues)
+          console.log('step changed', fromStep.id, toStep?.id, wizardValues)
         }}
         header={<Header />}
         wrapper={<WizardStepWrapper />}

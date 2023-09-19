@@ -65,7 +65,7 @@ const steps = [
     component: <StepAsync />,
     onSubmit: async (stepValues, allValues, actions) => {
       const delay = (ms) => new Promise(res => setTimeout(res, ms))
-      await delay(3000)
+      await delay(2000)
       return stepValues
     }
   },
