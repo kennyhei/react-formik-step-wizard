@@ -9789,7 +9789,7 @@ attempted value: ${s}
   function KP() {
     return /* @__PURE__ */ O.jsxs("div", { className: "prose max-w-none", children: [
       /* @__PURE__ */ O.jsx("h2", { className: "text-white", children: "Async" }),
-      /* @__PURE__ */ O.jsx("p", { children: 'Pressing "Next" does async operation that takes 3 seconds before we proceed to the next step.' })
+      /* @__PURE__ */ O.jsx("p", { children: 'Pressing "Next" does async operation that takes 2 seconds before we proceed to the next step.' })
     ] });
   }
   function QP() {
@@ -9872,7 +9872,7 @@ attempted value: ${s}
     {
       id: "Async",
       component: /* @__PURE__ */ O.jsx(KP, {}),
-      onSubmit: async (e, t, n) => (await ((i) => new Promise((o) => setTimeout(o, i)))(3e3), e)
+      onSubmit: async (e, t, n) => (await ((i) => new Promise((o) => setTimeout(o, i)))(2e3), e)
     },
     {
       id: "Final",
@@ -14479,7 +14479,7 @@ attempted value: ${s}
         steps: YP,
         onCompleted: (n) => console.log("wizard completed", n),
         onStepChanged: (n, r, i) => {
-          console.log("step changed", n.id, r.id, i);
+          console.log("step changed", n.id, r == null ? void 0 : r.id, i);
         },
         header: /* @__PURE__ */ O.jsx(jO, {}),
         wrapper: /* @__PURE__ */ O.jsx(hO, {}),
