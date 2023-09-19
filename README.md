@@ -60,7 +60,7 @@ import { Wizard, BasicFooter } from 'react-formik-step-wizard'
 import { Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
-function Step1() {
+function StepName() {
   return (
     <div>
       <div>
@@ -79,7 +79,7 @@ function Step1() {
   )
 }
 
-function Step2() {
+function StepAge() {
   return (
     <div>
       <label htmlFor="age">Age</label>
@@ -89,7 +89,7 @@ function Step2() {
   )
 }
 
-function Step3() {
+function StepFinal() {
   return (
     <div>
       <h1>You did it!</h1>
@@ -102,8 +102,8 @@ function Step3() {
 function App() {
   const steps = [
     {
-      id: 'Step1',
-      component: <Step1 />,
+      id: 'StepName',
+      component: <StepName />,
       initialValues: {
         firstName: 'John',
         lastName: 'Doe'
@@ -115,8 +115,8 @@ function App() {
       hidePrevious: true
     },
     {
-      id: 'Step2',
-      component: <Step2 />,
+      id: 'StepAge',
+      component: <StepAge />,
       initialValues: {
         age: 30
       },
@@ -125,16 +125,16 @@ function App() {
       })
     },
     {
-      id: 'Step3',
-      component: <Step3 />
+      id: 'StepFinal',
+      component: <StepFinal />
     }
   ]
 
   return (
     <Wizard
       steps={steps}
-      onStepChanged={(stepValues, wizardValues) => {
-        console.log('step changed', stepValues, wizardValues)
+      onStepChanged={(fromStep, toStep, wizardValues) => {
+        console.log('step changed', fromStep.id, toStep.id, wizardValues)
       }}
       onCompleted={values => {
         alert('wizard completed')
@@ -157,19 +157,19 @@ You can follow this tutorial step by step. Full code is shown in the end.
 ```js
 const steps = [
   {
-    id: 'Step1',
+    id: 'StepName',
     component: <StepName />,
     initialValues: { name: '' },
     validationSchema: Yup.object({ name: Yup.string().required('Name is required') })
   },
   {
-    id: 'Step2',
+    id: 'StepAge',
     component: <StepAge />,
     initialValues: { age: '' },
     validationSchema: Yup.object({ age: Yup.number().positive().required('Age is required') })
   },
   {
-    id: 'Step3',
+    id: 'StepFinal',
     component: <h1>Done</h1>
   }
 ]
@@ -219,26 +219,26 @@ Now you can pass the list to `Wizard`:
 ```js
 <Wizard
   steps={steps}
-  onStepChanged={(stepValues, wizardValues) => {
-    console.log('step changed', stepValues, wizardValues)
+  onStepChanged={(fromStep, toStep, wizardValues) => {
+    console.log('step changed', fromStep.id, toStep.id, wizardValues)
   }}
   onCompleted={values => console.log('wizard completed', values)}
 />
 ```
 
-- `onStepChanged` is called each time step is changed. `stepValues` is an object that contains form field-value pairs user inputted in said step. `wizardValues` is a collection of all inputted values in previously completed steps.
+- `onStepChanged` is called each time step is changed. `fromStep` and `toStep` represent step objects. `wizardValues` is a collection of all inputted values in previously completed steps.
 - `onCompleted` is called when user completes the wizard. `values` contains the field-value pairs from all steps.
 
 If we look at [Quickstart](#quickstart) example, then `onStepChanged` would print this after user has completed first step:
 
 ```js
-> step changed, { firstName: 'John', lastName: 'Doe' }, { StepName: { firstName: 'John', lastName: 'Doe' }}
+> step changed, StepName, StepAge, { StepName: { firstName: 'John', lastName: 'Doe' }}
 ```
 
 After user has completed the wizard, `onStepChanged` and `onCompleted` would print this:
 
 ```js
-> step changed, { age: 30 }, { StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 } }
+> step changed, StepFinal, StepFinal, { StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 } }
 > wizard completed, { firstName: 'John', lastName: 'Doe', age: 30 }
 ```
 
@@ -284,19 +284,19 @@ function StepAge() {
 function App() {
   const steps = [
     {
-      id: 'Step1',
+      id: 'StepName',
       component: <StepName />,
       initialValues: { name: '' },
       validationSchema: Yup.object({ name: Yup.string().required('Name is required') })
     },
     {
-      id: 'Step2',
+      id: 'StepAge',
       component: <StepAge />,
       initialValues: { age: '' },
       validationSchema: Yup.object({ age: Yup.number().positive().required('Age is required') })
     },
     {
-      id: 'Step3',
+      id: 'StepFinal',
       component: <h1>Done</h1>
     }
   ]
@@ -458,7 +458,7 @@ List of step objects that are passed to `Wizard` have various options you can se
 | Name              | Type                            | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 |-------------------|---------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `steps`           | list                            | ✅        | List of step objects. See example and configuration instructions above.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `onStepChanged` | (stepValues, allValues) => void | ❌        | Function that is called when user either submits currently active step or navigates back to previous step.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `onStepChanged` | (fromStep, toStep, wizardValues) => void | ❌        | Function that is called when user either submits currently active step or navigates back to previous step.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `onCompleted`     | (values) => void                | ❌        | Function that is called when user completes the wizard.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `header`          | ReactElement                 | ❌        | Header that is shown above the active step.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `wrapper`         | ReactElement                 | ❌        | Wrapper component that is wrapped around `step.component`. Useful if you need e.g. styling that is shared across all step components.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -472,7 +472,7 @@ List of step objects that are passed to `Wizard` have various options you can se
 
 | Name              | Type                      | Description                                                                                                                                           |
 |-------------------|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `values`            | object                    | Contains all form field values from previously completed steps. Example:<br><br>`{ Step1: { firstName: 'John', lastName: 'Doe' }, Step2: { age: 30 }` |
+| `values`            | object                    | Contains all form field values from previously completed steps. Example:<br><br>`{ StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 }` |
 | `activeStep`              | object                    | Active step object.                                                                                                                                   |
 | `stepNumber`        | number                    | Order number of currently active step. Indexing starts from 1.                                                                                        |
 | `totalSteps`        | number                    | Number of total steps.                                                                                                                                |
@@ -628,8 +628,8 @@ const steps = [{
 return (
   <Wizard
     steps={steps}
-    onStepChanged={(stepValues, allValues) => {
-      sessionStorage.setItem('wizardValues', JSON.stringify(allValues))
+    onStepChanged={(fromStep, toStep, wizardValues) => {
+      sessionStorage.setItem('wizardValues', JSON.stringify(wizardValues))
     }}
   />
 )

@@ -35,20 +35,20 @@ function Wizard({
     initialStep = resolveHashStep(hashes) || initialStep
   }
 
-  /* State */
+  // State
   const [ activeStep, setActiveStep ] = useState(initialStep)
   const [ isLoading, setIsLoading ] = useState(false)
   // Gather data of all forms from each step here
   const [ values, setValues ] = useState({})
 
-  /* Variables */
+  // Variables
   const currentIndex = steps.findIndex(s => s.id === activeStep.id)
   const stepNumber = currentIndex + 1
   const totalSteps = steps.length
   const isFirstStep = stepNumber === 1
   const isLastStep = stepNumber === totalSteps
 
-  /* Hash logic */
+  // Hash logic
   useEffect(() => {
     if (!enableHash) {
       return
@@ -56,7 +56,7 @@ function Wizard({
     updateHash(hashes, activeStep, setActiveStep)
   }, [activeStep])
 
-  /* Step resolve logic */
+  // Step resolve logic
   async function _getProceedingStep(remainingSteps, newValues, direction) {
     let proceedingStep
     for (let idx = 0; idx < remainingSteps.length; ++idx) {
@@ -94,7 +94,7 @@ function Wizard({
     return previousStep
   }
 
-  /* Step handlers */
+  // Step handlers
   function handleCompleted(values) {
     values = flattenValues(values)
     onCompleted(values)
@@ -114,11 +114,11 @@ function Wizard({
         [activeStep.id]: stepValues
       }
       setValues(wizardValues)
+      const nextStep = await _resolveNextStep(wizardValues)
       // Additional handler when step is changed
       if (onStepChanged) {
-        onStepChanged(stepValues, wizardValues)
+        onStepChanged(activeStep, nextStep, wizardValues)
       }
-      const nextStep = await _resolveNextStep(wizardValues)
       setActiveStep(nextStep || activeStep)
     } catch (error) {
       console.log(error)
@@ -142,6 +142,10 @@ function Wizard({
       onStepChanged(stepValues, wizardValues)
     }
     const previousStep = await _resolvePreviousStep(wizardValues)
+    // Additional handler when step is changed
+    if (onStepChanged) {
+      onStepChanged(activeStep, previousStep, wizardValues)
+    }
     setActiveStep(previousStep || activeStep)
   }
 
@@ -154,7 +158,7 @@ function Wizard({
     }
   }
 
-  /* Utility functions */
+  // Utility functions
   function goToStep(index) {
     setActiveStep(steps[index])
   }

@@ -17,7 +17,9 @@ function App() {
         enableHash
         steps={steps}
         onCompleted={values => console.log('wizard completed',  values)}
-        onStepChanged={(stepValues, allValues) => console.log('step changed', stepValues, allValues)}
+        onStepChanged={(fromStep, toStep, wizardValues) => {
+          console.log('step changed', fromStep.id, toStep.id, wizardValues)
+        }}
         header={<Header />}
         wrapper={<WizardStepWrapper />}
         footer={<Navigation />}
