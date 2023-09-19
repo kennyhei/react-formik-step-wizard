@@ -3,7 +3,7 @@ import { useWizard } from '@/index'
 
 function Final() {
   const { values, setHideNext } = useWizard()
-  const [ truthy, setTruthy ] = useState(false)
+  const [ truthy, setTruthy ] = useState(true)
 
   function toggle() {
     const res = !truthy

@@ -53,8 +53,18 @@ function Wizard({
     if (!enableHash) {
       return
     }
-    updateHash(hashes, activeStep, setActiveStep)
+    window.addEventListener('hashchange', handleHashChange)
+    updateHash(hashes, activeStep)
+    return () => window.removeEventListener('hashchange', handleHashChange)
   }, [activeStep])
+
+  function handleHashChange(e) {
+    const step = resolveHashStep(hashes)
+    if (step?.id === activeStep.id) {
+      return
+    }
+    setActiveStep(step)
+  }
 
   // Step resolve logic
   async function _getProceedingStep(remainingSteps, newValues, direction) {
