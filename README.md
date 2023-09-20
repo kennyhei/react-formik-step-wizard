@@ -43,6 +43,7 @@ Small demo showcasing the wizard and various use cases such as:
 - Shared footer with navigation buttons
 - Shared header with progress bar
 - Animated steps
+- URL hashes
 
 ## Installation
 
