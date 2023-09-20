@@ -651,9 +651,59 @@ When initiating `Wizard`, you can enable URL hashes with prop `enableHash`:
 
 Step IDs are converted into URL-friendly hashes. When user is in the first step, URL will be updated with hash `/#step-name` and when user proceeds to the next step, URL is updated with hash `/#step-age`. When refreshing page, active step will be chosen based on URL hash. If there is no hash or hash doesn't match with any step, first step is shown.
 
+## Animations
+
+Check `demo/components/WizardStepWrapper.jsx` on how to use `framer-motion` in your steps.
+
+## Creating wrapper for steps
+
+You can wrap steps by defining your own wrapper component. Here's an example:
+
+```js
+function StepWrapper() {
+  const { activeStep } = useWizard()
+  return (
+    <div style={{ backgroundColor: 'lightblue' }}>
+      <h1>Wrapper</h1>
+      {activeStep.component}
+    </div>
+  )
+}
+
+const steps = [{ id: 'Step', component: <p>I'm a simple step.</p> }]
+
+return (
+  <Wizard
+    steps={steps}
+    wrapper={<StepWrapper />}
+  />
+)
+```
+
+## Creating header for wizard
+
+You can create header for wizard by defining your own header component. Here's an example:
+
+```js
+function Header() {
+  const { activeStep } = useWizard()
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h1 style={{ textAlign: 'center' }}>{activeStep.id}</h1>
+    </div>
+  )
+}
+
+const steps = [{ id: 'Step', component: <p>I'm a simple step.</p> }]
+
+return (
+  <Wizard
+    steps={steps}
+    header={<Header />}
+  />
+)
+```
+
 ### TODO examples
 
 - Defining custom submit handlers with async operations
-- Creating wrapper for steps
-- Creating header for wizard
-- Animations / transitions
