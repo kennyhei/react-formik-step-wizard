@@ -262,7 +262,6 @@ import { Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
 function StepName() {
-  const { goToPreviousStep } = useWizard()
   return (
     <div>
       <div>
@@ -270,7 +269,6 @@ function StepName() {
         <Field id="name" name="name" type="text" />
         <ErrorMessage name="name" />
       </div>
-      <button type="button" onClick={goToPreviousStep}>Previous</button>
       <button type="submit">Next</button>
     </div>
   )
@@ -292,9 +290,12 @@ function StepAge() {
 }
 
 function StepFinal() {
-  const { values } = useWizard()
+  const { values, goToPreviousStep } = useWizard()
   return (
-    <div>Your name is {values.StepName.name} and your age is {values.StepAge.age}</div>
+    <div>
+      <p>Your name is {values.StepName.name} and your age is {values.StepAge.age}</p>
+      <button type="button" onClick={goToPreviousStep}>Previous</button>
+    </div>
   )
 }
 
