@@ -3,7 +3,7 @@
   "author": "kennyhei <kenny_heinonen@hotmail.com>",
   "description": "React multistep wizard with Formik integration",
   "homepage": "https://github.com/kennyhei/react-formik-step-wizard",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
   "module": "./dist/react-formik-step-wizard.es.js",
@@ -38,7 +38,8 @@
     "build:demo": "vite build -c vite.demo.config.js",
     "predeploy": "npm run build:demo",
     "deploy": "gh-pages -d dist",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
   },
   "dependencies": {
     "formik": "^2.4.5",
