@@ -61,7 +61,7 @@ yarn add react-formik-step-wizard
 
 ```js
 import React from 'react'
-import { Wizard, BasicFooter } from 'react-formik-step-wizard'
+import { Wizard, useWizard, BasicFooter } from 'react-formik-step-wizard'
 import { Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
@@ -95,9 +95,13 @@ function StepAge() {
 }
 
 function StepFinal() {
+  const { values } = useWizard()
+  const fullName = `${values.StepName.firstName} ${values.StepName.lastName}`
+  const age = values.StepAge.age
   return (
     <div>
       <h1>You did it!</h1>
+      <p>Your name is {fullName} and your age is {age}.</p>
       <p>Press button to complete the wizard.</p>
       <button type="submit">Finish</button>
     </div>
@@ -143,10 +147,10 @@ function App() {
       }}
       onCompleted={values => {
         alert('wizard completed')
-        console.log(values)
+        console.log('wizard completed', values)
       }}
       footer={<BasicFooter />}
-    >
+    />
   )
 }
 ```
@@ -287,6 +291,13 @@ function StepAge() {
   )
 }
 
+function StepFinal() {
+  const { values } = useWizard()
+  return (
+    <div>Your name is {values.StepName.name} and your age is {values.StepAge.age}</div>
+  )
+}
+
 function App() {
   const steps = [
     {
@@ -303,7 +314,7 @@ function App() {
     },
     {
       id: 'StepFinal',
-      component: <h1>Done</h1>
+      component: <StepFinal />
     }
   ]
 
@@ -313,7 +324,6 @@ function App() {
       onStepChanged={(stepValues, wizardValues) => {
         console.log('step changed', stepValues, wizardValues)
       }}
-      onCompleted={values => console.log('wizard completed', values)}
     />
   )
 }
