@@ -46,8 +46,6 @@ Small demo showcasing the wizard and various use cases such as:
 
 ## Installation
 
-**Prerequisites**: You need to have `formik` installed. If you are planning to use Yup for validation, then install `yup` as well.
-
 NPM:
 ```
 npm install react-formik-step-wizard
