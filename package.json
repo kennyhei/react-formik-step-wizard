@@ -40,18 +40,16 @@
     "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "prepare": "npm run build",
-    "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
   },
-  "dependencies": {
-    "formik": "^2.4.5",
-    "yup": "^1.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.3",
     "@tailwindcss/typography": "^0.5.10",
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.15",
     "daisyui": "^3.7.3",
+    "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
     "gh-pages": "^6.0.0",
     "postcss": "^8.4.29",
@@ -61,9 +59,11 @@
     "react-spinners": "^0.13.8",
     "sass": "^1.66.1",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "yup": "^1.2.0"
   },
   "peerDependencies": {
+    "formik": ">=2.4.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   }
