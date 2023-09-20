@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         // Excludes react from build file
-        external: ['react', 'react-dom'],
+        external: ['react', 'react-dom', 'formik'],
         output: {
           globals: {
             react: 'React'
