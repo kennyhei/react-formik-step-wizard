@@ -25,6 +25,9 @@ React multistep wizard with Formik integration
   - [Validating form field based on what user inputted in previous step(s)](#validating-form-field-based-on-what-user-inputted-in-previous-steps)
   - [Saving form values in SessionStorage](#saving-form-values-in-sessionstorage)
   - [Using URL hashes in the wizard](#using-url-hashes-in-the-wizard)
+  - [Animations](#animations)
+  - [Creating wrapper for steps](#creating-wrapper-for-steps)
+  - [Creating header for wizard](#creating-header-for-wizard)
 
 ## Demo
 
@@ -39,6 +42,7 @@ Small demo showcasing the wizard and various use cases such as:
 - Final step with summary of inputted data
 - Shared footer with navigation buttons
 - Shared header with progress bar
+- Animated steps
 
 ## Installation
 
