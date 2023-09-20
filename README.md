@@ -253,7 +253,8 @@ Here's what the finished code looks like:
 ```js
 import React from 'react'
 import { useWizard, Wizard } from 'react-formik-step-wizard'
-import { Field, ErrorMessage } from 'Formik'
+import { Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 
 function StepName() {
   const { goToPreviousStep } = useWizard()
