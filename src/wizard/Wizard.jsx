@@ -197,16 +197,15 @@ function Wizard({
   }
 
   function getContext(props) {
-    const actions = { resetForm: props.resetForm }
     return {
       values,
       setValues,
       setHideNext,
       setDisableNext,
       setIsLoading,
-      goToPreviousStep: () => handlePrevious(props.values, actions),
-      goToNextStep: () => handleNext(props.values, actions),
-      goToStep: (index) => goToStep(index, actions),
+      goToPreviousStep: () => handlePrevious(props.values, props),
+      goToNextStep: () => handleNext(props.values, props),
+      goToStep: (index) => goToStep(index, props),
       activeStep,
       stepNumber,
       totalSteps,
