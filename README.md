@@ -759,8 +759,8 @@ function Wrapper() {
     - Active step is changed to `Step2`
     - Internally `Wizard` provides Formik instance with new `initialValues` that equals to `{ age: '' }`
 3. Transition begins, `Step1` is still being rendered and `<Field name="name" type="text" />` cannot find corresponding initial value, causing `Field` to change from controlled input to uncontrolled.
-4. After transition is done, `Step1` is removed from DOM and everything is OK again.
+4. After transition is done, `Step1` is not rendered anymore and everything is OK again.
 
-Warning message is annoying but it doesn't seem to break anything nor is it visible to end user otherwise in any way. Also when `NODE_ENV` is set to `production`, warning message is not logged at all so it will be omitted from your build.
+To my understanding, in this case the warning message is annoying but harmless. It doesn't seem to break anything nor is it visible to end user otherwise in any way. Also when `NODE_ENV` is set to `production`, warning message is not logged at all so it will be omitted from your build.
 
 One solution would be to build `initialValues` so that it would combine all key-value pairs from all step objects. However, this basically prevents from using same key names in multiple step objects.
