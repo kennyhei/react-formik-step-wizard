@@ -157,10 +157,6 @@ function Wizard({
       setValues(wizardValues)
     }
     wizardValues = wizardValues || values
-    // Additional handler when step is changed
-    if (onStepChanged) {
-      onStepChanged(stepValues, wizardValues)
-    }
     const previousStep = await _resolvePreviousStep(wizardValues)
     // Additional handler when step is changed
     if (onStepChanged) {
