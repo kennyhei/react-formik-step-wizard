@@ -28,6 +28,7 @@ React multistep wizard with Formik integration
   - [Animations](#animations)
   - [Creating wrapper for steps](#creating-wrapper-for-steps)
   - [Creating header for wizard](#creating-header-for-wizard)
+- [Caveats](#caveats)
 
 ## Demo
 
