@@ -728,12 +728,10 @@ return (
 
 ## Caveats
 
-If you use animation library in your custom wrapper component, then during step change Formik logs warning `"A component is changing an uncontrolled input to be controlled."` to console. Tested with `react-spring` and `framer-motion`. Spent days debugging the issue but still not sure why it happens.
+If you use animation library in your custom wrapper component, then during step change Formik logs warning `"A component is changing a controlled input to be uncontrolled."` to console. Tested with `react-spring` and `framer-motion`.
 
-Since steps are internally using shared Formik instance, I think it has something to do with Formik prop `enableReinitialize` which resets the form when it notices that `initialValues` change (i.e. basically when step changes). However, React manages to render new step before Formik calls `resetForm`. If new step component is e.g. using Formik `<Field />`, internally it's retrieving `initialValues` which now still has the old values from previous step, causing said warning.
+Since steps are internally using shared Formik instance, I think the issue is that when step is changed, then Formik's `initialValues` is also updated according to what has been configured in new step object. However, during transition the old step is still rendered couple of times. If old step component is using Formik `<Field />`, internally it's retrieving `initialValues` which now has the new values from new step, causing said warning as it cannot find and assign the original `initialValues` to `<Field />`. This results in component being changed from controlled input to uncontrolled.
 
-I solved this by dropping `enableReinitialize` prop and instead `resetForm` is called manually every time when step is changed so that new step has correct `initialValues` right from the start. This fixed the warning message when custom wrapper (with animation library) is not used.
+Warning message is annoying but it doesn't seem to break anything nor is it visible to end user otherwise in any way. Also when `NODE_ENV` is set to `production`, warning message is not logged at all so it will be omitted from your build.
 
-Warning message is annoying but it doesn't seem to break anything nor is it visible to end user otherwise in any way.
-
-**UPDATE (22.09.2023)**: Warning message is not logged if `NODE_ENV` is set to `production`.
+One solution would be to build `initialValues` so that it would combine all key-value pairs from all step objects. However, this basically prevents from using same key names in multiple step objects.
