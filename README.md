@@ -736,4 +736,4 @@ I solved this by dropping `enableReinitialize` prop and instead `resetForm` is c
 
 Warning message is annoying but it doesn't seem to break anything nor is it visible to end user otherwise in any way.
 
-**UPDATE (22.09.2023)**: Warning message is not logged if `NODE_ENV` is set to production.
+**UPDATE (22.09.2023)**: Warning message is not logged if `NODE_ENV` is set to `production`.
