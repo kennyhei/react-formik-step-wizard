@@ -228,13 +228,9 @@ function Wizard({
     }
   }
 
-  const initialValues = React.useMemo(() => {
-    return values[activeStep.id] || activeStep.initialValues || {}
-  }, [activeStep])
-
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={getInitialValues(activeStep)}
       validationSchema={activeStep.validationSchema}
       validate={handleValidate(activeStep.validate)}
       validateOnChange={activeStep.validateOnChange ?? true}
