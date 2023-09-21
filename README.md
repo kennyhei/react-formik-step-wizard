@@ -756,8 +756,8 @@ function Wrapper() {
 
 1. First step is rendered, internal Formik instance now has `initialValues` that equals to `{ name: '' }`
 2. User clicks next:
-  - Active step is changed to `Step2`
-  - Internally `Wizard` provides Formik instance with new `initialValues` that equals to `{ age: '' }`
+    - Active step is changed to `Step2`
+    - Internally `Wizard` provides Formik instance with new `initialValues` that equals to `{ age: '' }`
 3. Transition begins, `Step1` is still being rendered and `<Field name="name" type="text" />` cannot find corresponding initial value, causing `Field` to change from controlled input to uncontrolled.
 4. After transition is done, `Step1` is removed from DOM and everything is OK again.
 
