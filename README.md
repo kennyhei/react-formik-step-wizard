@@ -730,7 +730,7 @@ return (
 
 If you use animation library in your custom wrapper component, then during step change Formik logs warning `"A component is changing an uncontrolled input to be controlled"` to console. Tested with `react-spring` and `framer-motion`. Spent days debugging the issue but still not sure why it happens.
 
-Since steps are using shared Formik instance, I think it has something to do with Formik prop `enableReinitialize` which resets the form when it notices that `initialValues` change (i.e. basically when step changes). However, React manages to render new step before Formik calls `resetForm`. If new step component is e.g. rendering Formik `<Field />`, internally it's retrieving `initialValues` which now still has the old values from previous step, causing said warning.
+Since steps are internally using shared Formik instance, I think it has something to do with Formik prop `enableReinitialize` which resets the form when it notices that `initialValues` change (i.e. basically when step changes). However, React manages to render new step before Formik calls `resetForm`. If new step component is e.g. rendering Formik `<Field />`, internally it's retrieving `initialValues` which now still has the old values from previous step, causing said warning.
 
 I solved this by dropping `enableReinitialize` prop and instead `resetForm` is called manually every time when step is changed so that new step has correct `initialValues` right from the start. This fixed the warning message when custom wrapper (with animation library) is not used.
 
