@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import steps from './config/steps'
-import WizardStepWrapper from './components/WizardStepWrapper'
+import StepWrapper from './components/StepWrapper'
 import Navigation from './components/Navigation'
 import Header from './components/Header'
 import { Wizard } from '../src/index'
@@ -14,14 +14,13 @@ function App() {
   return (
     <AppContext.Provider value={{ isAnimated, setIsAnimated }}>
       <Wizard
-        enableHash
         steps={steps}
         onCompleted={values => console.log('wizard completed',  values)}
         onStepChanged={(fromStep, toStep, wizardValues) => {
           console.log('step changed', fromStep.id, toStep?.id, wizardValues)
         }}
         header={<Header />}
-        wrapper={<WizardStepWrapper />}
+        wrapper={<StepWrapper mode='framer-motion' />}
         footer={<Navigation />}
       />
     </AppContext.Provider>

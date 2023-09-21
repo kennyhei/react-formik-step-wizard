@@ -44,6 +44,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@react-spring/web": "^9.7.3",
     "@rollup/plugin-terser": "^0.4.3",
     "@tailwindcss/typography": "^0.5.10",
     "@vitejs/plugin-react": "^4.0.4",
