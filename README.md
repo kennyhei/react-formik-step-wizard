@@ -730,7 +730,36 @@ return (
 
 If you use animation library in your custom wrapper component, then during step change Formik logs warning `"A component is changing a controlled input to be uncontrolled."` to console. Tested with `react-spring` and `framer-motion`.
 
-Since steps are internally using shared Formik instance, I think the issue is that when step is changed, then Formik's `initialValues` is also updated according to what has been configured in new step object. However, during transition the old step is still rendered couple of times. If old step component is using Formik `<Field />`, internally it's retrieving `initialValues` which now has the new values from new step, causing said warning as it cannot find and assign the original `initialValues` to `<Field />`. This results in component being changed from controlled input to uncontrolled.
+Since steps are internally using shared Formik instance, I think the issue is that when step is changed, then Formik's `initialValues` is also updated according to what has been configured in new step object. However, during transition the old step is still rendered couple of times. If old step component is using Formik `<Field />`, internally it's retrieving `initialValues` which now has the new values from new step, causing said warning as it cannot find corresponding initial value to `<Field />`. This results in component being changed from controlled input to uncontrolled.
+
+Simplified example:
+
+```js
+const steps = [
+  { id: 'Step1', component: <Field name="name" type="text" />, initialValues: { name: '' }},
+  { id: 'Step2', component: <Field name="age" type="number" />, initialValues: { age: '' }}
+]
+
+function Wrapper() {
+  const { activeStep } = useWizard()
+  return (
+    <AnimatePresence mode='wait'>
+      <motion.div key={activeStep.id}>
+        {activeStep.component}
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+<Wizard steps={steps} wrapper={<Wrapper />} />
+```
+
+1. First step is rendered, internal Formik instance now has `initialValues` that equals to `{ name: '' }`
+2. User clicks next:
+  - Active step is changed to `Step2`
+  - Internally `Wizard` provides Formik instance with new `initialValues` that equals to `{ age: '' }`
+3. Transition begins, `Step1` is still being rendered and `<Field name="name" type="text" />` cannot find corresponding initial value, causing `Field` to change from controlled input to uncontrolled.
+4. After transition is done, `Step1` is removed from DOM and everything is OK again.
 
 Warning message is annoying but it doesn't seem to break anything nor is it visible to end user otherwise in any way. Also when `NODE_ENV` is set to `production`, warning message is not logged at all so it will be omitted from your build.
 
