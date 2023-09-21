@@ -110,6 +110,16 @@ function Wizard({
     onCompleted(values)
   }
 
+  function handleSetActiveStep(step, actions) {
+    setActiveStep(step)
+    // Immediately reset Formik with new initialValues.
+    // `enableReinitialize` doesn't update Formik right away
+    // with new step's initialValues, causing error message when
+    // new step's <Field /> components don't match with provided
+    // initialValues.
+    actions.resetForm({ values: getInitialValues(step) })
+  }
+
   async function handleNext(stepValues, actions) {
     try {
       // Run custom submit handler first
@@ -129,7 +139,7 @@ function Wizard({
       if (onStepChanged) {
         onStepChanged(activeStep, nextStep, wizardValues)
       }
-      setActiveStep(nextStep || activeStep)
+      handleSetActiveStep(nextStep || activeStep, actions)
     } catch (error) {
       console.log(error)
       setIsLoading(false)
@@ -137,7 +147,7 @@ function Wizard({
     }
   }
 
-  async function handlePrevious(stepValues) {
+  async function handlePrevious(stepValues, actions) {
     let wizardValues = null
     if (activeStep.keepValuesOnPrevious ?? true) {
       wizardValues = {
@@ -156,7 +166,7 @@ function Wizard({
     if (onStepChanged) {
       onStepChanged(activeStep, previousStep, wizardValues)
     }
-    setActiveStep(previousStep || activeStep)
+    handleSetActiveStep(previousStep || activeStep, actions)
   }
 
   function handleValidate(validate) {
@@ -169,8 +179,8 @@ function Wizard({
   }
 
   // Utility functions
-  function goToStep(index) {
-    setActiveStep(steps[index])
+  function goToStep(index, actions) {
+    handleSetActiveStep(steps[index], actions)
   }
 
   function setHideNext(truthy) {
@@ -181,16 +191,22 @@ function Wizard({
     setActiveStep({ ...activeStep, disableNext: truthy })
   }
 
+  // Misc
+  function getInitialValues(step) {
+    return values[step.id] || step.initialValues || {}
+  }
+
   function getContext(props) {
+    const actions = { resetForm: props.resetForm }
     return {
       values,
       setValues,
       setHideNext,
       setDisableNext,
       setIsLoading,
-      goToPreviousStep: () => handlePrevious(props.values),
-      goToNextStep: () => handleNext(props.values, props.actions),
-      goToStep,
+      goToPreviousStep: () => handlePrevious(props.values, actions),
+      goToNextStep: () => handleNext(props.values, actions),
+      goToStep: (index) => goToStep(index, actions),
       activeStep,
       stepNumber,
       totalSteps,
@@ -213,10 +229,13 @@ function Wizard({
     }
   }
 
+  const initialValues = React.useMemo(() => {
+    return values[activeStep.id] || activeStep.initialValues || {}
+  }, [activeStep])
+
   return (
     <Formik
-      enableReinitialize
-      initialValues={values[activeStep.id] || activeStep.initialValues || {}}
+      initialValues={initialValues}
       validationSchema={activeStep.validationSchema}
       validate={handleValidate(activeStep.validate)}
       validateOnChange={activeStep.validateOnChange ?? true}
