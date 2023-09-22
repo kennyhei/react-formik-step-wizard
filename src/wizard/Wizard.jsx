@@ -92,7 +92,6 @@ function Wizard({
     // so let's call handleCompleted
     if (!nextStep) {
       handleCompleted(newValues)
-      return
     }
     return nextStep
   }
@@ -106,6 +105,9 @@ function Wizard({
 
   // Step handlers
   function handleCompleted(values) {
+    if (!onCompleted) {
+      return
+    }
     values = flattenValues(values)
     onCompleted(values)
   }
