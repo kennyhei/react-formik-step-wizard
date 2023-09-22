@@ -531,53 +531,59 @@ import React from 'react'
 import { Field, ErrorMessage } from 'formik'
 import { Wizard, useWizard } from 'react-formik-step-wizard'
 
+function NonSkippableStep() {
+  return (
+    <div>
+      <p>This is non-skippable step.</p>
+      <p>Type "skip" if you want to skip next step.</p>
+      <div>
+        <Field name='text' type='text' />
+        <ErrorMessage name='text' />
+      </div>
+      <button type='submit'>Next</button>
+    </div>
+  )
+}
+
+function SkippableStep() {
+  const { goToPreviousStep } = useWizard()
+  return (
+    <div>
+      <p>This is skipped if user typed "skip" in previous step.</p>
+      <button type='button' onClick={goToPreviousStep}>Previous</button>
+      <button type='submit'>Next</button>
+    </div>
+  )
+}
+
+function FinalStep() {
+  const { goToPreviousStep } = useWizard()
+  return (
+    <div>
+      <h1>You did it!</h1>
+      <button type='button' onClick={goToPreviousStep}>
+        Previous
+      </button>
+    </div>
+  )
+}
+
 const steps = [
   {
     id: 'NonSkippableStep',
-    component: (() => {
-      return (
-        <div>
-          <p>This is non-skippable step.</p>
-          <div>
-            <label htmlFor="text">Type 'skip' if you want to skip next step.</label>
-            <Field name="text" type="text" />
-            <ErrorMessage name="text" />
-          </div>
-          <button type="submit">Next</button>
-        </div>
-      )
-    })(),
-    initialValues: {
-      text: ''
-    }
+    component: <NonSkippableStep />,
+    initialValues: { text: '' }
   },
   {
     id: 'SkippableStep',
-    component: (() => {
-      return (
-        <div>
-          <p>This is skipped if user typed 'skip' in previous step.</p>
-          <button type="submit">Next</button>
-        </div>
-      )
-    })(),
+    component: <SkippableStep />,
     shouldSkip: (values, direction) => {
       return values.NonSkippableStep.text === 'skip'
     }
   },
   {
     id: 'FinalStep',
-    component: (() => {
-      const { goToPreviousStep } = useWizard()
-      return (
-        <div>
-          <h1>You did it!</h1>
-          <button type="button" onClick={goToPreviousStep}>
-            Previous
-          </button>
-        </div>
-      )
-    })()
+    component: <FinalStep />
   }
 ]
 
