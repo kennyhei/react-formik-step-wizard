@@ -301,8 +301,8 @@ function StepFinal() {
   return (
     <div>
       <p>Your name is {values.StepName.name} and your age is {values.StepAge.age}</p>
-      <button type="submit">Finish</button>
       <button type="button" onClick={goToPreviousStep}>Previous</button>
+      <button type="submit">Finish</button>
     </div>
   )
 }
@@ -370,7 +370,7 @@ function Step1() {
 const steps = [{ id: 'Step1', component: <Step1 />, hidePrevious: true }]
 
 function Navigation() {
-  let = {
+  const {
     goToPreviousStep,
     isFirstStep,
     isLastStep,
@@ -401,9 +401,11 @@ function Navigation() {
   )
 }
 
-return (
-  <Wizard steps={steps} footer={<Navigation />}>
-)
+function App() {
+  return (
+    <Wizard steps={steps} footer={<Navigation />} />
+  )
+}
 ```
 
 ### BasicFooter
