@@ -710,7 +710,7 @@ function Wrapper() {
 
 To my understanding, in this case the warning message is annoying but harmless. It doesn't seem to break anything nor is it visible to end user otherwise in any way. Also when `NODE_ENV` is set to `production`, warning message is not logged at all so it will be omitted from your build.
 
-One solution would be to combine all `initialValues` from step objects to a single one that is then passed to Formik. E.g. for every step in aforementioned example Formik would always be given `initialValues` that equals to `{ name: '', age: '' }`. However, this basically prevents from using same field names in multiple step objects.
+One solution would be to combine all `initialValues` from step objects to a single one that is then passed to Formik. E.g. for every step in aforementioned example Formik would always be given `initialValues` that equals to `{ name: '', age: '' }`. However, this basically prevents from using same field names in multiple step objects. Other solution would be to prefix every initial value but that's clumsy as well.
 
 ## Creating wrapper for steps
 
