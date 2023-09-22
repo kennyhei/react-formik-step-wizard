@@ -9671,21 +9671,17 @@ attempted value: ${s}
     }
     async function P(E) {
       const O = e.slice(v + 1), D = await C(O, E, 1);
-      if (!D) {
-        _(E);
-        return;
-      }
-      return D;
+      return D || _(E), D;
     }
     async function T(E) {
       const O = e.slice(0, v).reverse();
       return await C(O, E, -1);
     }
     function _(E) {
-      E = HP(E), t(E);
+      t && (E = HP(E), t(E));
     }
     function L(E, O) {
-      c(E), O.resetForm({ values: Ee(E) });
+      E && (c(E), O.resetForm({ values: Ee(E) }));
     }
     async function F(E, O) {
       try {
@@ -9696,7 +9692,7 @@ attempted value: ${s}
         };
         g(D);
         const N = await P(D);
-        n && n(u, N, D), L(N || u, O);
+        n && n(u, N, D), L(N, O);
       } catch (D) {
         console.log(D), d(!1), O.setStatus(D.message);
       }
@@ -9708,7 +9704,7 @@ attempted value: ${s}
         [u.id]: E
       }, g(D)), D = D || p;
       const N = await T(D);
-      n && n(u, N, D), L(N || u, O);
+      n && n(u, N, D), L(N, O);
     }
     function de(E) {
       return E ? (O) => E(O, p) : null;
