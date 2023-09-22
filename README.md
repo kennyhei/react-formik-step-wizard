@@ -604,39 +604,43 @@ Sometimes there's a need to validate field based on what user inputted in previo
 
 Example:
 ```js
+function StepName() {
+  return (
+    <div>
+      <div>
+        <label htmlFor="name">Name</label>
+        <Field name="name" type="text" />
+        <ErrorMessage name="name" />
+      </div>
+      <button type="submit">Next</button>
+    </div>
+  )
+}
+
+function StepFullName() {
+  return (
+    <div>
+      <div>
+        <label htmlFor="fullName">Full Name</label>
+        <Field name="fullName" type="text" />
+        <ErrorMessage name="fullName" />
+      </div>
+      <button type="submit">Finish</button>
+    </div>
+  )
+}
+
 const steps = [
   {
     id: 'StepName',
-    component: (() => {
-      return (
-        <div>
-          <div>
-            <label htmlFor="name">Name</label>
-            <Field name="name" type="text" />
-            <ErrorMessage name="name" />
-          </div>
-          <button type="submit">Next</button>
-        </div>
-      )
-    })(),
+    component: <StepName />,
     initialValues: {
       name: ''
     }
   },
   {
     id: 'StepFullName',
-    component: (() => {
-      return (
-        <div>
-          <div>
-            <label htmlFor="fullName">Full Name</label>
-            <Field name="fullName" type="text" />
-            <ErrorMessage name="fullName" />
-          </div>
-          <button type="submit">Next</button>
-        </div>
-      )
-    })(),
+    component: <StepFullName />,
     initialValues: {
       fullName: ''
     },
