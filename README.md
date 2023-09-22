@@ -618,6 +618,7 @@ function StepName() {
 }
 
 function StepFullName() {
+  const { goToPreviousStep } = useWizard()
   return (
     <div>
       <div>
@@ -625,7 +626,7 @@ function StepFullName() {
         <Field name="fullName" type="text" />
         <ErrorMessage name="fullName" />
       </div>
-      <button type="submit">Finish</button>
+      <button type="button" onClick={goToPreviousStep}>Previous</button>
     </div>
   )
 }

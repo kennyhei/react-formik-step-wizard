@@ -113,6 +113,9 @@ function Wizard({
   }
 
   function handleSetActiveStep(step, actions) {
+    if (!step) {
+      return
+    }
     setActiveStep(step)
     // Immediately reset Formik with new initialValues.
     // `enableReinitialize` doesn't update Formik right away
@@ -141,7 +144,7 @@ function Wizard({
       if (onStepChanged) {
         onStepChanged(activeStep, nextStep, wizardValues)
       }
-      handleSetActiveStep(nextStep || activeStep, actions)
+      handleSetActiveStep(nextStep, actions)
     } catch (error) {
       console.log(error)
       setIsLoading(false)
@@ -164,7 +167,7 @@ function Wizard({
     if (onStepChanged) {
       onStepChanged(activeStep, previousStep, wizardValues)
     }
-    handleSetActiveStep(previousStep || activeStep, actions)
+    handleSetActiveStep(previousStep, actions)
   }
 
   function handleValidate(validate) {
