@@ -363,11 +363,10 @@ Here's an example of simple navigation component:
 import React from 'react'
 import { Wizard, useWizard } from 'react-formik-step-wizard'
 
-function Step1() {
-  return <h1>Hello world!</h1>
-}
-
-const steps = [{ id: 'Step1', component: <Step1 />, hidePrevious: true }]
+const steps = [
+  { id: 'Step1', component: <h1>Step 1</h1>, hidePrevious: true },
+  { id: 'Step2', component: <h1>Step 2</h1>, hideNext: true }
+]
 
 function Navigation() {
   const {
@@ -417,18 +416,19 @@ If you don't wish to create your own navigation component, a basic footer with n
 import React from 'react'
 import { Wizard, BasicFooter } from 'react-formik-step-wizard'
 
-function Step1() {
-  return <h1>Hello world!</h1>
+const steps = [
+  { id: 'Step1', component: <h1>Step 1</h1>, hidePrevious: true },
+  { id: 'Step2', component: <h1>Step 2</h1>, hideNext: true }
+]
+
+function App() {
+  return (
+    <Wizard
+      steps={steps}
+      footer={<BasicFooter textNext="Proceed" textPrevious="Go back" />}
+    />
+  )
 }
-
-const steps = [{ id: 'Step1', component: <Step1 /> }]
-
-return (
-  <Wizard
-    steps={steps}
-    footer={<BasicFooter textNext="Proceed" textPrevious="Go back" />}
-  />
-)
 ```
 
 Note that `BasicNavigation` has two additional props `textNext` and `textPrevious` for customizing button texts. By default they are "Next" and "Previous".
@@ -527,6 +527,10 @@ You can define a `shouldSkip` function that returns boolean value in the step ob
 
 Example:
 ```js
+import React from 'react'
+import { Field, ErrorMessage } from 'formik'
+import { Wizard, useWizard } from 'react-formik-step-wizard'
+
 const steps = [
   {
     id: 'NonSkippableStep',
@@ -576,6 +580,12 @@ const steps = [
     })()
   }
 ]
+
+function App() {
+  return (
+    <Wizard steps={steps} />
+  )
+}
 ```
 
 ### Validating form field based on what user inputted in previous step(s)
