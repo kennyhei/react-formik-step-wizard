@@ -677,7 +677,7 @@ Check `demo/components/WizardStepWrapper.jsx` on how to use `framer-motion` in y
 
 If you use animation library in your custom wrapper component, then during step change Formik logs warning `"A component is changing a controlled input to be uncontrolled."` to console. Tested with `react-spring` and `framer-motion`.
 
-Since steps are internally using shared Formik instance, I think the issue is that when step is changed, then Formik's `initialValues` is also updated according to what has been configured in new step object. However, during transition the old step is still rendered couple of times. If old step component is using Formik `<Field />`, internally it's retrieving `initialValues` which now has the new values from new step, causing said warning as it cannot find corresponding initial value to `<Field />`. This results in component being changed from controlled input to uncontrolled.
+Since steps are internally using shared Formik instance, I think the issue is that when step is changed, then Formik's `initialValues` is also updated according to what has been configured in new step object. However, during transition the old step is still rendered couple of times. If old step component is using Formik `<Field />`, internally it's retrieving `initialValues` which now has the new values from new step, causing said warning as it cannot find anymore corresponding initial value for `<Field />`. This results in component being changed from controlled input to uncontrolled.
 
 Simplified example:
 
@@ -710,7 +710,7 @@ function Wrapper() {
 
 To my understanding, in this case the warning message is annoying but harmless. It doesn't seem to break anything nor is it visible to end user otherwise in any way. Also when `NODE_ENV` is set to `production`, warning message is not logged at all so it will be omitted from your build.
 
-One solution would be to build `initialValues` so that it would combine all key-value pairs from all step objects. However, this basically prevents from using same key names in multiple step objects.
+One solution would be to combine all `initialValues` from step objects to a single one that is then passed to Formik. E.g. for every step in aforementioned example Formik would always be given `initialValues` that equals to `{ name: '', age: '' }`. However, this basically prevents from using same field names in multiple step objects.
 
 ## Creating wrapper for steps
 
