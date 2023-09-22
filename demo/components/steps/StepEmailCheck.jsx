@@ -1,7 +1,7 @@
 import React from 'react'
 import { useWizard } from '@/index'
 
-function EmailCheck() {
+function StepEmailCheck() {
   const { goToStep } = useWizard()
 
   return (
@@ -17,4 +17,4 @@ function EmailCheck() {
   )
 }
 
-export default EmailCheck
+export default StepEmailCheck

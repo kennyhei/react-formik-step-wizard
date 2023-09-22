@@ -1,7 +1,7 @@
 import { ContactInfoSchema, validateUsername } from './validation'
-import StepEmailCheck from '../components/StepEmailConfirm'
-import StepAsync from '../components/StepAsync'
-import StepFinal from '../components/StepFinal'
+import StepEmailCheck from '../components/steps/StepEmailCheck'
+import StepAsync from '../components/steps/StepAsync'
+import StepFinal from '../components/steps/StepFinal'
 
 const steps = [
   {

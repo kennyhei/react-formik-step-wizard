@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useWizard } from '@/index'
 
-function Final() {
+function StepFinal() {
   const { values, setHideNext } = useWizard()
   const [ truthy, setTruthy ] = useState(true)
 
@@ -35,4 +35,4 @@ function Final() {
   )
 }
 
-export default Final
+export default StepFinal

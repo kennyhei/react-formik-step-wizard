@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import steps from './config/steps'
-import WizardStepWrapper from './components/WizardStepWrapper'
+import StepWrapper from './components/StepWrapper'
 import Navigation from './components/Navigation'
 import Header from './components/Header'
 import { Wizard } from '../src/index'
@@ -21,7 +21,7 @@ function App() {
           console.log('step changed', fromStep.id, toStep?.id, wizardValues)
         }}
         header={<Header />}
-        wrapper={<WizardStepWrapper />}
+        wrapper={<StepWrapper />}
         footer={<Navigation />}
       />
     </AppContext.Provider>
