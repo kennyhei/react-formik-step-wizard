@@ -35,7 +35,7 @@ function DefaultStepContentRenderer({
 
   return (
     <div id='default' className='prose max-w-none'>
-      <h2 className='text-white'>{humanize(activeStep.id)}</h2>
+      <h2>{humanize(activeStep.id)}</h2>
       <p>{activeStep.helpText}</p>
       <div className='flex flex-row gap-6 flex-wrap'>
         {Object.keys(initialValues || {}).map(field => (

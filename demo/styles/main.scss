@@ -4,6 +4,9 @@
 
 .prose {
     @apply text-gray-300;
+    h2 {
+        @apply text-white;
+    }
 }
 
 .navigation {
