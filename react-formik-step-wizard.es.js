@@ -14473,13 +14473,12 @@ attempted value: ${s}
   }
   const Sf = w.createContext();
   function DO() {
-    const [e, t] = w.useState(!1);
+    const [e, t] = w.useState(!0);
     return /* @__PURE__ */ D.jsx(Sf.Provider, { value: { isAnimated: e, setIsAnimated: t }, children: /* @__PURE__ */ D.jsx(
       WP,
       {
         enableHash: !0,
         steps: YP,
-        onCompleted: (n) => console.log("wizard completed", n),
         onStepChanged: (n, r, i) => {
           console.log("step changed", n.id, r == null ? void 0 : r.id, i);
         },
