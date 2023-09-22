@@ -10,13 +10,12 @@ import './styles/main.scss'
 export const AppContext = createContext()
 
 function App() {
-  const [ isAnimated, setIsAnimated ] = useState(false)
+  const [ isAnimated, setIsAnimated ] = useState(true)
   return (
     <AppContext.Provider value={{ isAnimated, setIsAnimated }}>
       <Wizard
         enableHash
         steps={steps}
-        onCompleted={values => console.log('wizard completed',  values)}
         onStepChanged={(fromStep, toStep, wizardValues) => {
           console.log('step changed', fromStep.id, toStep?.id, wizardValues)
         }}
