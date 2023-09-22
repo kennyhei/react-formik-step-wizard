@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useRef,
   useState
 } from 'react'
 import { Form, Formik } from 'formik'
@@ -40,6 +41,7 @@ function Wizard({
   const [ isLoading, setIsLoading ] = useState(false)
   // Gather data of all forms from each step here
   const [ values, setValues ] = useState({})
+  const formikBag = useRef(null)
 
   // Variables
   const currentIndex = steps.findIndex(s => s.id === activeStep.id)
@@ -63,7 +65,7 @@ function Wizard({
     if (step?.id === activeStep.id) {
       return
     }
-    setActiveStep(step)
+    handleSetActiveStep(step, formikBag.current)
   }
 
   // Step resolve logic
@@ -237,6 +239,7 @@ function Wizard({
       validateOnChange={activeStep.validateOnChange ?? true}
       validateOnBlur={activeStep.validateOnBlur ?? true}
       onSubmit={handleNext}
+      innerRef={formikBag}
     >
       {props => {
         const context = getContext(props)
