@@ -691,7 +691,13 @@ function Wrapper() {
   const { activeStep } = useWizard()
   return (
     <AnimatePresence mode='wait'>
-      <motion.div key={activeStep.id}>
+      <motion.div
+        key={activeStep.id}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1}}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5}}
+      >
         {activeStep.component}
       </motion.div>
     </AnimatePresence>
