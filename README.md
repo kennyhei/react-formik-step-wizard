@@ -62,6 +62,7 @@ yarn add react-formik-step-wizard
 
 ```js
 import React from 'react'
+import ReactDOM from 'react-dom/client'
 import { Wizard, useWizard, BasicFooter } from 'react-formik-step-wizard'
 import { Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -136,7 +137,8 @@ function App() {
     },
     {
       id: 'StepFinal',
-      component: <StepFinal />
+      component: <StepFinal />,
+      hideNext: true
     }
   ]
 
@@ -154,6 +156,10 @@ function App() {
     />
   )
 }
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <App />
+)
 ```
 
 ## How it works
@@ -180,7 +186,7 @@ const steps = [
   },
   {
     id: 'StepFinal',
-    component: <h1>Done</h1>
+    component: <StepFinal />
   }
 ]
 ```
@@ -237,7 +243,7 @@ Now you can pass the list to `Wizard`:
 ```
 
 - `onStepChanged` is called each time step is changed. `fromStep` and `toStep` represent step objects. `wizardValues` is a collection of all inputted values in previously completed steps.
-- `onCompleted` is called when user completes the wizard. `values` contains the field-value pairs from all steps.
+- `onCompleted` is called when user completes the wizard (i.e. submits last step). `values` contains the field-value pairs from all steps.
 
 If we look at [Quickstart](#quickstart) example, then `onStepChanged` would print this after user has completed first step:
 
@@ -295,6 +301,7 @@ function StepFinal() {
   return (
     <div>
       <p>Your name is {values.StepName.name} and your age is {values.StepAge.age}</p>
+      <button type="submit">Finish</button>
       <button type="button" onClick={goToPreviousStep}>Previous</button>
     </div>
   )
@@ -323,9 +330,10 @@ function App() {
   return (
     <Wizard
       steps={steps}
-      onStepChanged={(stepValues, wizardValues) => {
-        console.log('step changed', stepValues, wizardValues)
+      onStepChanged={(fromStep, toStep, wizardValues) => {
+        console.log('step changed', fromStep.id, toStep?.id, wizardValues)
       }}
+      onCompleted={values => console.log('wizard completed', values)}
     />
   )
 }
