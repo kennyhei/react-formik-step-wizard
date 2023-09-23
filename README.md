@@ -441,14 +441,15 @@ You can! Here's an example:
 
 ```js
 function Step1() {
-  const { step, goToPreviousStep } = useWizard()
+  const { activeStep, goToPreviousStep } = useWizard()
+  const { hidePrevious, hideNext, disablePrevious, disableNext } = activeStep
   return (
     <div>
-      {!step.hidePrevious && (
-        <button type="button" onClick={goToPreviousStep} disabled={step.disablePrevious}>Previous</button>
+      {!hidePrevious && (
+        <button type="button" onClick={goToPreviousStep} disabled={disablePrevious}>Previous</button>
       )}
-      {!step.hideNext && (
-        <button type="submit" disabled={step.disableNext}>Next</button>
+      {!hideNext && (
+        <button type="submit" disabled={disableNext}>Next</button>
       )}
     </div>
   )
