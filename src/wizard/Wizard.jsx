@@ -194,6 +194,14 @@ function Wizard({
     setActiveStep({ ...activeStep, disableNext: truthy })
   }
 
+  function setHidePrevious(truthy) {
+    setActiveStep({ ...activeStep, hidePrevious: truthy })
+  }
+
+  function setDisablePrevious(truthy) {
+    setActiveStep({ ...activeStep, disablePrevious: truthy })
+  }
+
   // Misc
   function getInitialValues(step) {
     return values[step.id] || step.initialValues || {}
@@ -205,6 +213,8 @@ function Wizard({
       setValues,
       setHideNext,
       setDisableNext,
+      setHidePrevious,
+      setDisablePrevious,
       setIsLoading,
       goToPreviousStep: () => handlePrevious(props.values, props),
       goToNextStep: () => handleNext(props.values, props),
@@ -219,6 +229,7 @@ function Wizard({
       hidePrevious: activeStep.hidePrevious,
       hideNext: activeStep.hideNext,
       disableNext: activeStep.disableNext,
+      disablePrevious: activeStep.disablePrevious,
       disableNextOnErrors: activeStep.disableNextOnErrors && !props.isValid,
       // allow form validation even if btn is disabled to show validation errors
       onClickNext: (activeStep.disableNext || activeStep.disableNextOnErrors) ? async () => {

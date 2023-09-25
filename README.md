@@ -510,6 +510,8 @@ List of step objects that are passed to `Wizard` have various options you can se
 | `isLastStep`        | boolean                   | Is the currently active step the last step.                                                                                                           |
 | `setHideNext`    | (truthy: boolean) => void | Function used to set the step object's value of `hideNext` attribute.                      |
 | `setDisableNext` | (truthy: boolean) => void | Function used to set the step object's value of `disableNext` attribute.               |
+| `setHidePrevious` | (truthy: boolean) => void | Function used to set the step object's value of `hidePrevious` attribute. |
+| `setDisablePrevious` | (truthy: boolean) => void | Function used to set the step object's value of `disablePrevious` attribute. |
 | `setIsLoading`     | (truthy: boolean) => void | Function used to set the value of `isLoading` attribute.                                     |
 | `goToPreviousStep`  | function                  | Go to previous step.                                                                                                                                  |
 | `goToStep`          | (index) => void           | Go to step at the specified index.                                                                                                                    |
