@@ -11,7 +11,7 @@ function BasicFooter({ textNext, textPrevious }) {
     hideNext,
     disableNext,
     disableNextOnErrors,
-    onClickNext
+    onClickDisabledNext
   } = useWizard()
   disableNext = isLoading || disableNext || disableNextOnErrors
 
@@ -26,7 +26,7 @@ function BasicFooter({ textNext, textPrevious }) {
         )}
         {/* 'Next' button */}
         {!hideNext && (
-          <div onClick={onClickNext}>
+          <div onClick={onClickDisabledNext}>
             <button type='submit' disabled={disableNext}>
               {isLoading ? 'Loading...' : textNext || 'Next'}
             </button>

@@ -355,7 +355,7 @@ If you wish to include a shared navigation for all steps in your wizard, you can
 - `disablePrevious`: Boolean indicating whether "Previous" button should be disabled. This comes from step object.
 - `hideNext`: Boolean indicating whether "Next" button should be hidden. This comes from step object.
 - `disableNext`: Boolean indicating whether "Next" button should be disabled. This comes from step object.
-- `onClickNext`: Function that validates form. Useful ONLY if you want to allow form validation even when "Next" button is disabled.
+- `onClickDisabledNext`: Function that validates form when `disableNext` is `true`. Useful ONLY if you want to allow form validation even when "Next" button is disabled.
 
 Here's an example of simple navigation component:
 
@@ -379,7 +379,7 @@ function Navigation() {
     hideNext,
     disableNext,
     disableNextOnErrors,
-    onClickNext
+    onClickDisabledNext
   } = useWizard()
 
   if (isLoading) {
@@ -392,7 +392,7 @@ function Navigation() {
         <button type="button" onClick={goToPreviousStep} disabled={disablePrevious}>Previous</button>
       )}
       {!hideNext && (
-        <div onClick={onClickNext}>
+        <div onClick={onClickDisabledNext}>
           <button type="submit" disabled={disableNext}>Next</button>
         </div>
       )}

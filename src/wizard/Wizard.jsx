@@ -232,7 +232,7 @@ function Wizard({
       disablePrevious: activeStep.disablePrevious,
       disableNextOnErrors: activeStep.disableNextOnErrors && !props.isValid,
       // allow form validation even if btn is disabled to show validation errors
-      onClickNext: (activeStep.disableNext || activeStep.disableNextOnErrors) ? async () => {
+      onClickDisabledNext: (activeStep.disableNext || activeStep.disableNextOnErrors) ? async () => {
         const res = await props.validateForm()
         // field error is not shown after validation if "touched" attribute is not set to true
         Object.keys(res).forEach(fieldName => {
