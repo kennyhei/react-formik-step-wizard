@@ -7,9 +7,9 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import { WizardContext } from '@/helpers/hooks'
 import SubmitOnChangeListener from '@/components/SubmitOnChangeListener'
 import { buildHashSteps, resolveHashStep, updateHash } from '@/helpers/hash'
-import { WizardProps, Step, WizardContextValue } from '@/types'
+import { WizardProps, Step, WizardContextValue, WizardValues, Values } from '@/types'
 
-function flattenValues(wizardValues: any) {
+function flattenValues(wizardValues: WizardValues) {
   let data = {}
   Object.keys(wizardValues).forEach((stepId: string | number) => {
     data = {
@@ -41,7 +41,7 @@ function Wizard({
   const [ activeStep, setActiveStep ] = useState(initialStep)
   const [ isLoading, setIsLoading ] = useState<boolean>(false)
   // Gather data of all forms from each step here
-  const [ values, setValues ] = useState<any>({})
+  const [ values, setValues ] = useState<WizardValues>({})
   const formikBag = useRef(null)
 
   // Variables
@@ -72,7 +72,7 @@ function Wizard({
   // Step resolve logic
   async function _getProceedingStep(
     remainingSteps : Step[],
-    newValues : object,
+    newValues : WizardValues,
     direction : number
   ) {
     let proceedingStep
@@ -92,7 +92,7 @@ function Wizard({
     return proceedingStep
   }
 
-  async function _resolveNextStep(newValues : object) {
+  async function _resolveNextStep(newValues : WizardValues) {
     // Loop remaining steps until non-skippable step is found
     const remainingSteps = steps.slice(currentIndex + 1)
     const nextStep = await _getProceedingStep(remainingSteps, newValues, 1)
@@ -104,7 +104,7 @@ function Wizard({
     return nextStep
   }
 
-  async function _resolvePreviousStep(newValues : object) {
+  async function _resolvePreviousStep(newValues : WizardValues) {
     // Loop remaining steps backwards until non-skippable step is found
     const remainingSteps = steps.slice(0, currentIndex).reverse()
     const previousStep = await _getProceedingStep(remainingSteps, newValues, -1)
@@ -112,7 +112,7 @@ function Wizard({
   }
 
   // Step handlers
-  function handleCompleted(values : object) {
+  function handleCompleted(values : WizardValues) {
     if (!onCompleted) {
       return
     }
@@ -185,7 +185,7 @@ function Wizard({
     if (!validate) {
       return
     }
-    return (stepValues : any) => {
+    return (stepValues : Values) => {
       return validate(stepValues, values)
     }
   }

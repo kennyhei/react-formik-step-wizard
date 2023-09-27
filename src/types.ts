@@ -1,5 +1,11 @@
-// TODO: component, shouldSkip, validate, validationSchema
-// need fine-tuning
+export interface Values {
+  [field: string]: any
+}
+
+export interface WizardValues {
+  [stepId: string]: Values
+}
+
 export interface Step {
   readonly id: string,
   readonly component: React.ReactNode,
@@ -13,18 +19,18 @@ export interface Step {
   disableNextOnErrors?: boolean,
   disablePrevious?: boolean,
   keepValuesOnPrevious?: boolean,
-  shouldSkip?: (allValues: object, direction: number) => Promise<boolean>
-  onSubmit?: (stepValues: object, allValues: object, actions : any) => Promise<object>
-  validate?: (stepValues: object, allValues: object) => object
-  validationSchema?: object,
+  shouldSkip?: (allValues: WizardValues, direction: number) => Promise<boolean>
+  onSubmit?: (stepValues: Values, allValues: WizardValues, actions : any) => Promise<object>
+  validate?: (stepValues: Values, allValues: WizardValues) => object
+  validationSchema?: any,
   validateOnBlur?: boolean,
   validateOnChange?: boolean
 }
 
 export interface WizardProps {
   steps: Step[],
-  onCompleted: (values : object) => void,
-  onStepChanged: (fromStep: Step | undefined, toStep: Step | undefined, allValues: object) => void,
+  onCompleted: (values : Values) => void,
+  onStepChanged: (fromStep: Step | undefined, toStep: Step | undefined, allValues: WizardValues) => void,
   enableHash?: boolean,
   header?: React.ReactNode,
   wrapper?: React.ReactNode,
@@ -33,7 +39,7 @@ export interface WizardProps {
 
 export interface WizardContextValue {
   values: object,
-  setValues: (newValues : object) => void,
+  setValues: (newValues : WizardValues) => void,
   setHideNext: (truthy : boolean) => void,
   setDisableNext: (truthy : boolean) => void,
   setHidePrevious: (truthy: boolean) => void,
