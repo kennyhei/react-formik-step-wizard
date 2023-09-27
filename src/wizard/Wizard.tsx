@@ -79,7 +79,7 @@ function Wizard({
     for (let idx = 0; idx < remainingSteps.length; ++idx) {
       const step = remainingSteps[idx]
       // Check if "shouldSkip" attr exists
-      if (!step.shouldSkip) {
+      if (step.shouldSkip === undefined) {
         proceedingStep = step
         break
       }
