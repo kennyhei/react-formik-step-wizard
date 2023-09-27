@@ -14,7 +14,7 @@ function SubmitOnChangeListener({ step } : Props) {
     if (!fieldNames) {
       return
     }
-    fieldNames.forEach((fieldName: any) => {
+    fieldNames.forEach((fieldName: string) => {
       const inputs = document.querySelectorAll(`input[name='${fieldName}']`)
       for (let i = 0; i < inputs.length; ++i) {
         inputs[i].addEventListener('click', (e) => {
