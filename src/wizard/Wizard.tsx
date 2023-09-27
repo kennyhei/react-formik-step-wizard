@@ -183,9 +183,9 @@ function Wizard({
 
   function handleValidate(validate : Step['validate']) {
     if (!validate) {
-      return null
+      return
     }
-    return (stepValues : object) => {
+    return (stepValues : any) => {
       return validate(stepValues, values)
     }
   }
