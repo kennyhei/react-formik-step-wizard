@@ -1,7 +1,11 @@
+import React from 'react'
 import { ContactInfoSchema, validateUsername } from './validation'
+import { Values, WizardValues } from '../../src/types'
+import { FormikHelpers } from 'formik'
 import StepEmailCheck from '../components/steps/StepEmailCheck'
 import StepAsync from '../components/steps/StepAsync'
 import StepFinal from '../components/steps/StepFinal'
+
 
 const steps = [
   {
@@ -51,7 +55,7 @@ const steps = [
     component: <StepEmailCheck />,
     hideNext: true,
     hidePrevious: true,
-    shouldSkip: (values, direction) => {
+    shouldSkip: (values : WizardValues, direction : number) => {
       // Skip if we click "Previous" in "StepAsync"
       if (direction === -1) {
         return true
@@ -63,8 +67,8 @@ const steps = [
   {
     id: 'Async',
     component: <StepAsync />,
-    onSubmit: async (stepValues, allValues, actions) => {
-      const delay = (ms) => new Promise(res => setTimeout(res, ms))
+    onSubmit: async (stepValues : Values, allValues : WizardValues, actions : FormikHelpers<any>) => {
+      const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
       await delay(2000)
       return stepValues
     }

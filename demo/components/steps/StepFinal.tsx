@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useWizard } from '@/index'
+import { useWizard } from '../../../src/index'
 
 function StepFinal() {
   const { values, setHideNext } = useWizard()

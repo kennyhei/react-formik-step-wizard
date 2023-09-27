@@ -7,7 +7,11 @@ import Header from './components/Header'
 import { Wizard } from '../src/index'
 import './styles/main.scss'
 
-export const AppContext = createContext()
+interface AppContextValues {
+  isAnimated : boolean,
+  setIsAnimated : (truthy : boolean) => void
+}
+export const AppContext = createContext<AppContextValues>({} as AppContextValues)
 
 function App() {
   const [ isAnimated, setIsAnimated ] = useState(true)
@@ -17,7 +21,7 @@ function App() {
         enableHash
         steps={steps}
         onStepChanged={(fromStep, toStep, wizardValues) => {
-          console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+          console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
         }}
         header={<Header />}
         wrapper={<StepWrapper />}
@@ -27,6 +31,6 @@ function App() {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <App />
 )

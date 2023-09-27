@@ -7,18 +7,18 @@ function DefaultStepContentRenderer({
   values
 }) {
 
-  function humanize(value) {
+  function humanize(value: string) {
     value = value[0].toUpperCase() + value.slice(1)
     return value.replace(/[A-Z]/g, ' $&')
   }
 
-  function getFieldConstraints(yupSchema) {
+  function getFieldConstraints(yupSchema: any) {
     if (!yupSchema) {
       return
     }
-    const constraints = {}
+    const constraints : any = {}
     const schema = yupSchema
-    schema.tests.forEach(test => {
+    schema.tests.forEach((test : any) => {
       switch (test.OPTIONS.name) {
         case 'min':
           constraints.min = test.OPTIONS.params.min || test.OPTIONS.params.more

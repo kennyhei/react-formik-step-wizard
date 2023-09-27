@@ -1,4 +1,5 @@
 import * as Yup from 'yup'
+import { Values, WizardValues } from '../../src/types'
 
 /* Schemas for <Formik validationSchema> */
 
@@ -16,8 +17,8 @@ export const ContactInfoSchema = Yup.object({
   on values that were filled in previous steps.
 */
 
-export function validateUsername(stepValues, values) {
-  const errors = {}
+export function validateUsername(stepValues : Values, values: WizardValues) {
+  const errors : any = {}
   if (!stepValues.username) {
     errors.username = 'This field is required.'
   } else if (!stepValues.username.toLowerCase().includes(values.ContactInfo.firstName.toLowerCase())) {

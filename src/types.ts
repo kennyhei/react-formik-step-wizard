@@ -1,3 +1,5 @@
+import 'vite/client'
+
 export interface Values {
   [field: string]: any
 }
@@ -8,7 +10,7 @@ export interface WizardValues {
 
 export interface StepValues {
   readonly id: string,
-  readonly component: React.ReactNode,
+  readonly component?: React.ReactNode,
   initialValues?: {
     [field: string]: any
   },
@@ -19,18 +21,20 @@ export interface StepValues {
   disableNextOnErrors?: boolean,
   disablePrevious?: boolean,
   keepValuesOnPrevious?: boolean,
-  shouldSkip?: (allValues: WizardValues, direction: number) => Promise<boolean>
-  onSubmit?: (stepValues: Values, allValues: WizardValues, actions : any) => Promise<object>
+  shouldSkip?: (allValues: WizardValues, direction: number) => boolean
+  onSubmit?: (stepValues: Values, allValues: WizardValues, actions : any) => Values
   validate?: (stepValues: Values, allValues: WizardValues) => object
   validationSchema?: any,
   validateOnBlur?: boolean,
-  validateOnChange?: boolean
+  validateOnChange?: boolean,
+  // Allow extra attributes defined by user
+  [field: string]: any
 }
 
 export interface WizardProps {
   steps: StepValues[],
-  onCompleted: (values : Values) => void,
-  onStepChanged: (fromStep: StepValues | undefined, toStep: StepValues | undefined, allValues: WizardValues) => void,
+  onCompleted?: (values : Values) => void,
+  onStepChanged?: (fromStep: StepValues | undefined, toStep: StepValues | undefined, allValues: WizardValues) => void,
   enableHash?: boolean,
   header?: React.ReactNode,
   wrapper?: React.ReactNode,
@@ -38,7 +42,7 @@ export interface WizardProps {
 }
 
 export interface WizardContextValues {
-  values: object,
+  values: WizardValues,
   setValues: (newValues : WizardValues) => void,
   setHideNext: (truthy : boolean) => void,
   setDisableNext: (truthy : boolean) => void,
