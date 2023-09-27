@@ -1,9 +1,11 @@
-// TODO: component, initialValues, shouldSkip, validate, validationSchema
+// TODO: component, shouldSkip, validate, validationSchema
 // need fine-tuning
 export interface Step {
   readonly id: string,
-  readonly component: object,
-  initialValues?: object,
+  readonly component: React.ReactNode,
+  initialValues?: {
+    [field: string]: any
+  },
   submitOnChange?: boolean,
   hideNext?: boolean,
   hidePrevious?: boolean,
@@ -24,9 +26,9 @@ export interface WizardProps {
   onCompleted: (values : object) => void,
   onStepChanged: (fromStep: Step | undefined, toStep: Step | undefined, allValues: object) => void,
   enableHash?: boolean,
-  header?: object,
-  wrapper?: object,
-  footer?: object
+  header?: React.ReactNode,
+  wrapper?: React.ReactNode,
+  footer?: React.ReactNode
 }
 
 export interface WizardContextValue {
