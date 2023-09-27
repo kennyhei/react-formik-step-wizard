@@ -6,7 +6,7 @@ export interface WizardValues {
   [stepId: string]: Values
 }
 
-export interface Step {
+export interface StepValues {
   readonly id: string,
   readonly component: React.ReactNode,
   initialValues?: {
@@ -28,16 +28,16 @@ export interface Step {
 }
 
 export interface WizardProps {
-  steps: Step[],
+  steps: StepValues[],
   onCompleted: (values : Values) => void,
-  onStepChanged: (fromStep: Step | undefined, toStep: Step | undefined, allValues: WizardValues) => void,
+  onStepChanged: (fromStep: StepValues | undefined, toStep: StepValues | undefined, allValues: WizardValues) => void,
   enableHash?: boolean,
   header?: React.ReactNode,
   wrapper?: React.ReactNode,
   footer?: React.ReactNode
 }
 
-export interface WizardContextValue {
+export interface WizardContextValues {
   values: object,
   setValues: (newValues : WizardValues) => void,
   setHideNext: (truthy : boolean) => void,
@@ -48,7 +48,7 @@ export interface WizardContextValue {
   goToPreviousStep: () => void,
   goToNextStep: () => void,
   goToStep: (index : number) => void,
-  activeStep: Step,
+  activeStep: StepValues,
   stepNumber: number,
   totalSteps: number,
   isLoading: boolean,

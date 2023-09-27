@@ -7,7 +7,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import { WizardContext } from '@/helpers/hooks'
 import SubmitOnChangeListener from '@/components/SubmitOnChangeListener'
 import { buildHashSteps, resolveHashStep, updateHash } from '@/helpers/hash'
-import { WizardProps, Step, WizardContextValue, WizardValues, Values } from '@/types'
+import { WizardProps, StepValues as Step, WizardContextValues, WizardValues, Values } from '@/types'
 
 function flattenValues(wizardValues: WizardValues) {
   let data = {}
@@ -216,7 +216,7 @@ function Wizard({
     return values[step.id] || step.initialValues || {}
   }
 
-  function getContext(props : FormikProps<any>) : WizardContextValue {
+  function getContext(props : FormikProps<any>) : WizardContextValues {
     return {
       values,
       setValues,
