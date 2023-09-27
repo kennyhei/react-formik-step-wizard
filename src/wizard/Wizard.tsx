@@ -78,7 +78,8 @@ function Wizard({
     let proceedingStep
     for (let idx = 0; idx < remainingSteps.length; ++idx) {
       const step = remainingSteps[idx]
-      if (!step.hasOwnProperty('shouldSkip')) {
+      // Check if "shouldSkip" attr exists
+      if (!step.shouldSkip) {
         proceedingStep = step
         break
       }
@@ -119,17 +120,16 @@ function Wizard({
     onCompleted(values)
   }
 
-  function handleSetActiveStep(step : Step, actions : FormikHelpers<any>) {
-    if (!step) {
-      return
-    }
+  function handleSetActiveStep(step : Step, actions : FormikHelpers<any> | null) {
     setActiveStep(step)
     // Immediately reset Formik with new initialValues.
     // `enableReinitialize` doesn't update Formik right away
     // with new step's initialValues, causing error message when
     // new step's <Field /> components don't match with provided
     // initialValues.
-    actions.resetForm({ values: getInitialValues(step) })
+    if (actions) {
+      actions.resetForm({ values: getInitialValues(step) })
+    }
   }
 
   async function handleNext(stepValues : object, actions : FormikHelpers<any>) {
@@ -151,7 +151,9 @@ function Wizard({
       if (onStepChanged) {
         onStepChanged(activeStep, nextStep, wizardValues)
       }
-      handleSetActiveStep(nextStep, actions)
+      if (nextStep) {
+        handleSetActiveStep(nextStep, actions)
+      }
     } catch (error : any) {
       console.log(error)
       setIsLoading(false)
@@ -174,7 +176,9 @@ function Wizard({
     if (onStepChanged) {
       onStepChanged(activeStep, previousStep, wizardValues)
     }
-    handleSetActiveStep(previousStep, actions)
+    if (previousStep) {
+      handleSetActiveStep(previousStep, actions)
+    }
   }
 
   function handleValidate(validate : Step['validate']) {
