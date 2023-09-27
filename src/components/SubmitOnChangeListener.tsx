@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useFormikContext } from 'formik'
-import { StepValues as Step } from '@/types'
+import { StepValues as Step } from '../types'
 
 interface Props {
   step: Step

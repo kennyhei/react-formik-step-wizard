@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { WizardContextValues } from '@/types'
+import { WizardContextValues } from '../types'
 
 export const WizardContext = createContext<WizardContextValues | undefined>(undefined)
 
