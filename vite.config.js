@@ -2,6 +2,7 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import terser from '@rollup/plugin-terser'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -12,7 +13,8 @@ export default defineConfig(({ mode }) => {
       }
     },
     plugins: [
-      react()
+      react(),
+      dts()
     ],
     // Exclude "public" folder from production build
     publicDir: mode === 'development' ? true : false,
@@ -21,7 +23,7 @@ export default defineConfig(({ mode }) => {
       cssMinify: true,
       sourcemap: true,
       lib: {
-        entry: path.resolve(__dirname, 'src/index.js'),
+        entry: path.resolve(__dirname, 'src/index.ts'),
         name: 'react-formik-step-wizard',
         formats: ['es'],
         fileName: (format) => `react-formik-step-wizard.${format}.js`
