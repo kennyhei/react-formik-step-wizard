@@ -2,7 +2,13 @@ import React from 'react'
 import { useWizard } from '../helpers/hooks'
 
 
-function BasicFooter({ textNext, textPrevious }) {
+interface Props {
+  textNext: string,
+  textPrevious: string
+}
+
+
+function BasicFooter({ textNext, textPrevious }: Props) {
   let {
     goToPreviousStep,
     isLoading,
