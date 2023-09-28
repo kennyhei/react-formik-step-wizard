@@ -29,8 +29,8 @@ function Wizard({
   header,
   wrapper,
   footer
-} : WizardProps) {
-  let initialStep : Step = steps[0]
+}: WizardProps) {
+  let initialStep: Step = steps[0]
   let hashes = {}
   if (enableHash) {
     hashes = buildHashSteps(steps)
@@ -45,11 +45,11 @@ function Wizard({
   const formikBag = useRef(null)
 
   // Variables
-  const currentIndex : number = steps.findIndex(s => s.id === activeStep.id)
-  const stepNumber : number = currentIndex + 1
-  const totalSteps : number = steps.length
-  const isFirstStep : boolean = stepNumber === 1
-  const isLastStep : boolean = stepNumber === totalSteps
+  const currentIndex: number = steps.findIndex(s => s.id === activeStep.id)
+  const stepNumber: number = currentIndex + 1
+  const totalSteps: number = steps.length
+  const isFirstStep: boolean = stepNumber === 1
+  const isLastStep: boolean = stepNumber === totalSteps
 
   // Hash logic
   useEffect(() => {
@@ -71,9 +71,9 @@ function Wizard({
 
   // Step resolve logic
   async function _getProceedingStep(
-    remainingSteps : Step[],
-    newValues : WizardValues,
-    direction : number
+    remainingSteps: Step[],
+    newValues: WizardValues,
+    direction: number
   ) {
     let proceedingStep
     for (let idx = 0; idx < remainingSteps.length; ++idx) {
@@ -92,7 +92,7 @@ function Wizard({
     return proceedingStep
   }
 
-  async function _resolveNextStep(newValues : WizardValues) {
+  async function _resolveNextStep(newValues: WizardValues) {
     // Loop remaining steps until non-skippable step is found
     const remainingSteps = steps.slice(currentIndex + 1)
     const nextStep = await _getProceedingStep(remainingSteps, newValues, 1)
@@ -104,7 +104,7 @@ function Wizard({
     return nextStep
   }
 
-  async function _resolvePreviousStep(newValues : WizardValues) {
+  async function _resolvePreviousStep(newValues: WizardValues) {
     // Loop remaining steps backwards until non-skippable step is found
     const remainingSteps = steps.slice(0, currentIndex).reverse()
     const previousStep = await _getProceedingStep(remainingSteps, newValues, -1)
@@ -112,7 +112,7 @@ function Wizard({
   }
 
   // Step handlers
-  function handleCompleted(values : WizardValues) {
+  function handleCompleted(values: WizardValues) {
     if (!onCompleted) {
       return
     }
@@ -120,7 +120,7 @@ function Wizard({
     onCompleted(values)
   }
 
-  function handleSetActiveStep(step : Step, actions : FormikHelpers<any> | null) {
+  function handleSetActiveStep(step: Step, actions: FormikHelpers<any> | null) {
     setActiveStep(step)
     // Immediately reset Formik with new initialValues.
     // `enableReinitialize` doesn't update Formik right away
@@ -132,7 +132,7 @@ function Wizard({
     }
   }
 
-  async function handleNext(stepValues : object, actions : FormikHelpers<any>) {
+  async function handleNext(stepValues: object, actions: FormikHelpers<any>) {
     try {
       // Run custom submit handler first
       if (activeStep.onSubmit) {
@@ -154,14 +154,14 @@ function Wizard({
       if (nextStep) {
         handleSetActiveStep(nextStep, actions)
       }
-    } catch (error : any) {
+    } catch (error: any) {
       console.log(error)
       setIsLoading(false)
       actions.setStatus(error.message)
     }
   }
 
-  async function handlePrevious(stepValues : object, actions : FormikHelpers<any>) {
+  async function handlePrevious(stepValues: object, actions: FormikHelpers<any>) {
     let wizardValues = null
     if (activeStep.keepValuesOnPrevious ?? true) {
       wizardValues = {
@@ -181,42 +181,42 @@ function Wizard({
     }
   }
 
-  function handleValidate(validate : Step['validate']) {
+  function handleValidate(validate: Step['validate']) {
     if (!validate) {
       return
     }
-    return (stepValues : Values) => {
+    return (stepValues: Values) => {
       return validate(stepValues, values)
     }
   }
 
   // Utility functions
-  function goToStep(index : number, actions : FormikHelpers<any>) {
+  function goToStep(index: number, actions: FormikHelpers<any>) {
     handleSetActiveStep(steps[index], actions)
   }
 
-  function setHideNext(truthy : boolean) {
+  function setHideNext(truthy: boolean) {
     setActiveStep({ ...activeStep, hideNext: truthy })
   }
 
-  function setDisableNext(truthy : boolean) {
+  function setDisableNext(truthy: boolean) {
     setActiveStep({ ...activeStep, disableNext: truthy })
   }
 
-  function setHidePrevious(truthy : boolean) {
+  function setHidePrevious(truthy: boolean) {
     setActiveStep({ ...activeStep, hidePrevious: truthy })
   }
 
-  function setDisablePrevious(truthy : boolean) {
+  function setDisablePrevious(truthy: boolean) {
     setActiveStep({ ...activeStep, disablePrevious: truthy })
   }
 
   // Misc
-  function getInitialValues(step : Step) {
+  function getInitialValues(step: Step) {
     return values[step.id] || step.initialValues || {}
   }
 
-  function getContext(props : FormikProps<any>) : WizardContextValues {
+  function getContext(props: FormikProps<any>) : WizardContextValues {
     return {
       values,
       setValues,
@@ -227,7 +227,7 @@ function Wizard({
       setIsLoading,
       goToPreviousStep: () => handlePrevious(props.values, props),
       goToNextStep: () => handleNext(props.values, props),
-      goToStep: (index : number) => goToStep(index, props),
+      goToStep: (index: number) => goToStep(index, props),
       activeStep,
       stepNumber,
       totalSteps,

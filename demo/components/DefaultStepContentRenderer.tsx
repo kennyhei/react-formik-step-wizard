@@ -1,7 +1,7 @@
 import { ErrorMessage, Field } from 'formik'
 
 interface Props {
-  activeStep : any,
+  activeStep: any,
   initialValues: any,
   values: any
 }
@@ -10,7 +10,7 @@ function DefaultStepContentRenderer({
   activeStep,
   initialValues,
   values
-} : Props) {
+}: Props) {
 
   function humanize(value: string) {
     value = value[0].toUpperCase() + value.slice(1)
@@ -23,7 +23,7 @@ function DefaultStepContentRenderer({
     }
     const constraints : any = {}
     const schema = yupSchema
-    schema.tests.forEach((test : any) => {
+    schema.tests.forEach((test: any) => {
       switch (test.OPTIONS.name) {
         case 'min':
           constraints.min = test.OPTIONS.params.min || test.OPTIONS.params.more

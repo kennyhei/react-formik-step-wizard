@@ -6,7 +6,7 @@ interface Props {
   step: Step
 }
 
-function SubmitOnChangeListener({ step } : Props) {
+function SubmitOnChangeListener({ step }: Props) {
   const { submitForm, setFieldValue } = useFormikContext()
 
   useEffect(() => {

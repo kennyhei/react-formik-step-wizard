@@ -17,7 +17,7 @@ export const ContactInfoSchema = Yup.object({
   on values that were filled in previous steps.
 */
 
-export function validateUsername(stepValues : Values, values: WizardValues) {
+export function validateUsername(stepValues: Values, values: WizardValues) {
   const errors : any = {}
   if (!stepValues.username) {
     errors.username = 'This field is required.'

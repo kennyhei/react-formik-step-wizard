@@ -8,8 +8,8 @@ import { Wizard } from '../src/index'
 import './styles/main.scss'
 
 interface AppContextValues {
-  isAnimated : boolean,
-  setIsAnimated : (truthy : boolean) => void
+  isAnimated: boolean,
+  setIsAnimated: (truthy : boolean) => void
 }
 export const AppContext = createContext<AppContextValues>({} as AppContextValues)
 
