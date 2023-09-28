@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       dts()
     ],
     // Exclude "public" folder from production build
-    publicDir: mode === 'development' ? true : false,
+    publicDir: mode === 'development' ? 'public' : false,
     build: {
       minify: true,
       cssMinify: true,
