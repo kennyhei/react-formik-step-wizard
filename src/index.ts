@@ -5,7 +5,7 @@ export type {
   WizardValues,
   WizardContextValues,
   WizardProps,
-  StepValues
+  StepConfig
 } from './types'
 
 export { Wizard, useWizard, BasicFooter }

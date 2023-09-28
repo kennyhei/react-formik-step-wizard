@@ -1,12 +1,12 @@
 import { ContactInfoSchema, validateUsername } from './validation'
-import { Values, WizardValues } from '../../src/types'
+import { Values, WizardValues, StepConfig } from '@/types'
 import { FormikHelpers } from 'formik'
 import StepEmailCheck from '../components/steps/StepEmailCheck'
 import StepAsync from '../components/steps/StepAsync'
 import StepFinal from '../components/steps/StepFinal'
 
 
-const steps = [
+const steps : StepConfig[] = [
   {
     id: 'ContactInfo',
     initialValues: {
