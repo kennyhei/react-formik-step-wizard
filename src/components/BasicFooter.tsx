@@ -1,8 +1,8 @@
 import { useWizard } from '../helpers/hooks'
 
 interface Props {
-  textNext: string,
-  textPrevious: string
+  textNext?: string,
+  textPrevious?: string
 }
 
 function BasicFooter({ textNext, textPrevious }: Props) {

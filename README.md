@@ -146,7 +146,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+        console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
       }}
       onCompleted={values => {
         alert('wizard completed')
@@ -236,7 +236,7 @@ Now you can pass the list to `Wizard`:
 <Wizard
   steps={steps}
   onStepChanged={(fromStep, toStep, wizardValues) => {
-    console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+    console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
   }}
   onCompleted={values => console.log('wizard completed', values)}
 />
@@ -331,7 +331,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+        console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
       }}
       onCompleted={values => console.log('wizard completed', values)}
     />
@@ -740,7 +740,9 @@ function Wrapper() {
   )
 }
 
-<Wizard steps={steps} wrapper={<Wrapper />} />
+return (
+  <Wizard steps={steps} wrapper={<Wrapper />} />
+)
 ```
 
 1. First step is rendered, internal Formik instance now has `initialValues` that equals to `{ name: '' }`
@@ -759,8 +761,10 @@ One solution would be to combine all `initialValues` from step objects to a sing
 You can wrap steps by defining your own wrapper component. Here's an example:
 
 ```js
+import { useWizard, Wizard } from 'react-formik-step-wizard'
+
 function StepWrapper() {
-  const { activeStep } = useWizard()
+  const { activeStep } = useWizard()
   return (
     <div style={{ backgroundColor: 'lightblue' }}>
       <h1>Wrapper</h1>
@@ -771,12 +775,14 @@ function StepWrapper() {
 
 const steps = [{ id: 'Step', component: <p>I'm a simple step.</p> }]
 
-return (
-  <Wizard
-    steps={steps}
-    wrapper={<StepWrapper />}
-  />
-)
+function App() {
+  return (
+    <Wizard
+      steps={steps}
+      wrapper={<StepWrapper />}
+    />
+  )
+}
 ```
 
 ## Creating header for wizard
@@ -784,10 +790,12 @@ return (
 You can create header for wizard by defining your own header component. Here's an example:
 
 ```js
+import { useWizard, Wizard } from 'react-formik-step-wizard'
+
 function Header() {
-  const { activeStep } = useWizard()
+  const { activeStep } = useWizard()
   return (
-    <div style={{ margin: '2rem 0' }}>
+    <div style={{ padding: '2rem 0', background: 'yellow' }}>
       <h1 style={{ textAlign: 'center' }}>{activeStep.id}</h1>
     </div>
   )
@@ -795,12 +803,14 @@ function Header() {
 
 const steps = [{ id: 'Step', component: <p>I'm a simple step.</p> }]
 
-return (
-  <Wizard
-    steps={steps}
-    header={<Header />}
-  />
-)
+function App() {
+  return (
+    <Wizard
+      steps={steps}
+      header={<Header />}
+    />
+  )
+}
 ```
 
 ### TODO examples
