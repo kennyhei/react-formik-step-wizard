@@ -4,7 +4,7 @@ import steps from './config/steps'
 import StepWrapper from './components/StepWrapper'
 import Navigation from './components/Navigation'
 import Header from './components/Header'
-import { Wizard } from '../src/index'
+import { Wizard } from '@/index'
 import './styles/main.scss'
 
 interface AppContextValues {
