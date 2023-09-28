@@ -109,26 +109,46 @@ export interface WizardProps {
 }
 
 export interface WizardContextValues {
+  /** Object containing all form field values from previous steps */
   values: WizardValues,
+  /** Function for updating values */
   setValues: (newValues : WizardValues) => void,
+  /** Function for updating the value of `activeStep.hideNext` */
   setHideNext: (truthy : boolean) => void,
+  /** Function for updating the value of `activeStep.disableNext` */
   setDisableNext: (truthy : boolean) => void,
+  /** Function for updating the value of `activeStep.hidePrevious` */
   setHidePrevious: (truthy: boolean) => void,
+  /** Function for updating the value of `activeStep.disablePrevious` */
   setDisablePrevious: (truthy: boolean) => void,
+  /** Function for updating the value of `Wizard.isLoading` */
   setIsLoading: (truthy: boolean) => void,
+  /** Go to previous step */
   goToPreviousStep: () => void,
+  /** Go to next step */
   goToNextStep: () => void,
+  /** Go to step specified by index */
   goToStep: (index : number) => void,
+  /** Currently active step's config object */
   activeStep: StepConfig,
+  /** Current index, numbering starts from 1 */
   stepNumber: number,
+  /** Total number of steps */
   totalSteps: number,
   isLoading: boolean,
+  /** Is currently active step first step */
   isFirstStep: boolean,
+  /** Is currently active step last step */
   isLastStep: boolean,
+  /** Value of `activeStep.hidePrevious` */
   hidePrevious?: boolean,
+  /** Value of `activeStep.hideNext` */
   hideNext?: boolean,
+  /** Value of `activeStep.disableNext` */
   disableNext?: boolean,
+  /** Value of `activeStep.disablePrevious` */
   disablePrevious?: boolean,
   disableNextOnErrors?: boolean,
+  /** Function that can be used to validate step even if submit button is disabled */
   onClickDisabledNext?: () => Promise<void>
 }
