@@ -83,12 +83,28 @@ export interface StepConfig {
 }
 
 export interface WizardProps {
+  /** List of step objects */
   steps: StepConfig[],
+  /**
+   * Function that is called when last step is submitted
+   * 
+   * @param values Object containing all form field values from previous steps
+   */
   onCompleted?: (values : Values) => void,
+  /**
+   * Function that is called when step is changed to another one
+   * @param fromStep Current step object when function was called
+   * @param toStep Proceeding step object when function was called
+   * @param allValues Object containing all form field values from previous steps
+   */
   onStepChanged?: (fromStep: StepConfig | undefined, toStep: StepConfig | undefined, allValues: WizardValues) => void,
+  /** Persists the current step in the URL (hash) */
   enableHash?: boolean,
+  /** Optional header that is shown above the active step */
   header?: React.ReactNode,
+  /** Optional wrapper that is wrapped around the active step component */
   wrapper?: React.ReactNode,
+  /** Optional footer that is shown below the active step */
   footer?: React.ReactNode
 }
 
