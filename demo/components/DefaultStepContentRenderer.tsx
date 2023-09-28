@@ -21,7 +21,7 @@ function DefaultStepContentRenderer({
     if (!yupSchema) {
       return
     }
-    const constraints : any = {}
+    const constraints: any = {}
     const schema = yupSchema
     schema.tests.forEach((test: any) => {
       switch (test.OPTIONS.name) {

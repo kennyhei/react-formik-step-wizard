@@ -5,7 +5,7 @@ interface StepHash {
 }
 
 export function buildHashSteps(steps: Step[]) {
-  const hashes : StepHash = {}
+  const hashes: StepHash = {}
   steps.forEach(step => {
     const hash = step.id.replace(/[A-Z]/g, (match: string, offset: number) => {
       return (offset > 0 ? '-' : '') + match.toLowerCase()
