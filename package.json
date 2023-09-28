@@ -41,7 +41,8 @@
     "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
-    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags",
+    "pack-install": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && npm run build && npm pack && tar -xzf react-formik-step-wizard-$PACKAGE_VERSION.tgz && mv package react-formik-step-wizard-$PACKAGE_VERSION && npm install ./react-formik-step-wizard-$PACKAGE_VERSION"
   },
   "dependencies": {},
   "devDependencies": {
