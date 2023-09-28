@@ -71,16 +71,14 @@ function StepName() {
   return (
     <div>
       <div>
-        <div>
-          <label htmlFor="firstName">First name</label>
-          <Field id="firstName" name="firstName" type="text" />
-          <ErrorMessage name="firstName" />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last name</label>
-          <Field id="lastName" name="lastName" type="text" />
-          <ErrorMessage name="lastName" />
-        </div>
+        <label htmlFor="firstName">First name</label>
+        <Field id="firstName" name="firstName" type="text" />
+        <ErrorMessage name="firstName" />
+      </div>
+      <div>
+        <label htmlFor="lastName">Last name</label>
+        <Field id="lastName" name="lastName" type="text" />
+        <ErrorMessage name="lastName" />
       </div>
     </div>
   )
