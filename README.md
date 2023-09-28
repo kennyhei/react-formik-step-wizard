@@ -73,12 +73,12 @@ function StepName() {
       <div>
         <div>
           <label htmlFor="firstName">First name</label>
-          <Field name="firstName" type="text" />
+          <Field id="firstName" name="firstName" type="text" />
           <ErrorMessage name="firstName" />
         </div>
         <div>
           <label htmlFor="lastName">Last name</label>
-          <Field name="lastName" type="text" />
+          <Field id="lastName" name="lastName" type="text" />
           <ErrorMessage name="lastName" />
         </div>
       </div>
@@ -90,7 +90,7 @@ function StepAge() {
   return (
     <div>
       <label htmlFor="age">Age</label>
-      <Field name="age" type="number" min="0" max="125" />
+      <Field id="age" name="age" type="number" min="0" max="125" />
       <ErrorMessage name="age" />
     </div>
   )
