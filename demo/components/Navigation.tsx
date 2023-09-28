@@ -1,8 +1,6 @@
 import { useWizard } from '@/index'
-import React from 'react'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 import ClipLoader from 'react-spinners/ClipLoader'
-
 
 function Navigation() {
   let {
@@ -13,7 +11,7 @@ function Navigation() {
     hideNext,
     disableNext,
     disableNextOnErrors,
-    onClickNext
+    onClickDisabledNext
   } = useWizard()
   disableNext = isLoading || disableNext || disableNextOnErrors
 
@@ -33,7 +31,7 @@ function Navigation() {
         )}
         {/* "Next" button */}
         {!hideNext && (
-          <div onClick={onClickNext}>
+          <div onClick={onClickDisabledNext}>
             <button
               type='submit'
               disabled={disableNext}

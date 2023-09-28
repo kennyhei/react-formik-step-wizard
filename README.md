@@ -73,12 +73,12 @@ function StepName() {
       <div>
         <div>
           <label htmlFor="firstName">First name</label>
-          <Field name="firstName" type="text" />
+          <Field id="firstName" name="firstName" type="text" />
           <ErrorMessage name="firstName" />
         </div>
         <div>
           <label htmlFor="lastName">Last name</label>
-          <Field name="lastName" type="text" />
+          <Field id="lastName" name="lastName" type="text" />
           <ErrorMessage name="lastName" />
         </div>
       </div>
@@ -90,7 +90,7 @@ function StepAge() {
   return (
     <div>
       <label htmlFor="age">Age</label>
-      <Field name="age" type="number" min="0" max="125" />
+      <Field id="age" name="age" type="number" min="0" max="125" />
       <ErrorMessage name="age" />
     </div>
   )
@@ -146,7 +146,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+        console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
       }}
       onCompleted={values => {
         alert('wizard completed')
@@ -236,7 +236,7 @@ Now you can pass the list to `Wizard`:
 <Wizard
   steps={steps}
   onStepChanged={(fromStep, toStep, wizardValues) => {
-    console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+    console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
   }}
   onCompleted={values => console.log('wizard completed', values)}
 />
@@ -331,7 +331,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+        console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
       }}
       onCompleted={values => console.log('wizard completed', values)}
     />
@@ -474,7 +474,9 @@ List of step objects that are passed to `Wizard` have various options you can se
 | `disableNextOnErrors`  | boolean                                                       | ❌       | false    | Indicates whether to disable submit button when form has errors.            |
 | `disablePrevious`      | boolean                                                       | ❌       | false    | Indicates whether to disable "Previous" button.                                 |
 | `keepValuesOnPrevious` | boolean                                                       | ❌       | true    | Remembers inputted values in current step if user decides to navigate back to previous step without submitting the form.                                                                                                                                                                                          |
-| `shouldSkip`           | (stepValues, allValues, actions) => stepValues | ❌       |         | Function that returns boolean telling whether the step should be skipped or not.<br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps<br />- `actions`                                                                         |
+| `shouldSkip`           | async (allValues, direction) => stepValues | ❌       |         | Function that returns boolean telling whether the step should be skipped or not.<br /><br /><b>Params:</b><br />- `allValues`: all form field values from previous steps<br />- `direction`: Tells whether user came to the current step by pressing "Previous" (-1) or by pressing "Next" (1)                                                                         |
+| `onSubmit`             | async (stepValues, allValues, actions) => stepValues | ❌ | Function that serves as a custom submit handler where you can do things after successful form submission. You should return `stepValues`.
+<br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps<br />- `actions`: Includes Formik helper functions
 | `validate`             | (stepValues, allValues) => object                             | ❌       |         | Validate the form's values with a function. If there are errors, return object containing field's name as key and error message as value.<br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps                                              |
 | `validationSchema`     | Yup.object                                                    | ❌       |         | A Yup schema. This is used for validation. Errors are mapped by key to the inner component's errors. Its keys should match of those values. Example here: [ https://formik.org/docs/guides/validation#validationschema ]( https://formik.org/docs/guides/validation#validationschema )          |
 | `validateOnBlur`       | boolean                                                       | ❌       | true   | Use this option to tell Formik to run validations on blur events.                                                                                                                                                                                                                                                 |
@@ -738,7 +740,9 @@ function Wrapper() {
   )
 }
 
-<Wizard steps={steps} wrapper={<Wrapper />} />
+return (
+  <Wizard steps={steps} wrapper={<Wrapper />} />
+)
 ```
 
 1. First step is rendered, internal Formik instance now has `initialValues` that equals to `{ name: '' }`
@@ -757,8 +761,10 @@ One solution would be to combine all `initialValues` from step objects to a sing
 You can wrap steps by defining your own wrapper component. Here's an example:
 
 ```js
+import { useWizard, Wizard } from 'react-formik-step-wizard'
+
 function StepWrapper() {
-  const { activeStep } = useWizard()
+  const { activeStep } = useWizard()
   return (
     <div style={{ backgroundColor: 'lightblue' }}>
       <h1>Wrapper</h1>
@@ -769,12 +775,14 @@ function StepWrapper() {
 
 const steps = [{ id: 'Step', component: <p>I'm a simple step.</p> }]
 
-return (
-  <Wizard
-    steps={steps}
-    wrapper={<StepWrapper />}
-  />
-)
+function App() {
+  return (
+    <Wizard
+      steps={steps}
+      wrapper={<StepWrapper />}
+    />
+  )
+}
 ```
 
 ## Creating header for wizard
@@ -782,10 +790,12 @@ return (
 You can create header for wizard by defining your own header component. Here's an example:
 
 ```js
+import { useWizard, Wizard } from 'react-formik-step-wizard'
+
 function Header() {
-  const { activeStep } = useWizard()
+  const { activeStep } = useWizard()
   return (
-    <div style={{ margin: '2rem 0' }}>
+    <div style={{ padding: '2rem 0', background: 'yellow' }}>
       <h1 style={{ textAlign: 'center' }}>{activeStep.id}</h1>
     </div>
   )
@@ -793,12 +803,14 @@ function Header() {
 
 const steps = [{ id: 'Step', component: <p>I'm a simple step.</p> }]
 
-return (
-  <Wizard
-    steps={steps}
-    header={<Header />}
-  />
-)
+function App() {
+  return (
+    <Wizard
+      steps={steps}
+      header={<Header />}
+    />
+  )
+}
 ```
 
 ### TODO examples

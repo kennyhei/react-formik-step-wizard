@@ -1,36 +1,42 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import terser from '@rollup/plugin-terser'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    // Base path used in index.html
-    base: '/react-formik-step-wizard',
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
       }
     },
-    define: {
-      'process.env.NODE_ENV': JSON.stringify(mode)
-    },
     plugins: [
-      react()
+      react(),
+      dts()
     ],
+    // Exclude "public" folder from production build
+    publicDir: mode === 'development' ? 'public' : false,
     build: {
       minify: true,
       cssMinify: true,
+      sourcemap: true,
       lib: {
-        entry: path.resolve(__dirname, 'demo/main.jsx'),
+        entry: path.resolve(__dirname, 'src/index.ts'),
         name: 'react-formik-step-wizard',
         formats: ['es'],
         fileName: (format) => `react-formik-step-wizard.${format}.js`
       },
       rollupOptions: {
-        input: {
-          app: './index.html'
-        }
+        // Excludes react from build file
+        external: ['react', 'react-dom', 'formik'],
+        output: {
+          globals: {
+            react: 'React'
+          }
+        },
+        plugins: [terser()]
       }
     }
   }

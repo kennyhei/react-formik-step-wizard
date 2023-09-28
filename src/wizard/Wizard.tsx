@@ -1,16 +1,17 @@
-import React, {
+import {
   useEffect,
   useRef,
   useState
 } from 'react'
-import { Form, Formik } from 'formik'
-import { WizardContext } from '@/helpers/hooks'
-import SubmitOnChangeListener from '@/components/SubmitOnChangeListener'
-import { buildHashSteps, resolveHashStep, updateHash } from '@/helpers/hash'
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
+import { WizardContext } from '../helpers/hooks'
+import SubmitOnChangeListener from '../components/SubmitOnChangeListener'
+import { buildHashSteps, resolveHashStep, updateHash } from '../helpers/hash'
+import { WizardProps, StepConfig as Step, WizardContextValues, WizardValues, Values } from '../types'
 
-function flattenValues(wizardValues) {
+function flattenValues(wizardValues: WizardValues) {
   let data = {}
-  Object.keys(wizardValues).forEach(stepId => {
+  Object.keys(wizardValues).forEach((stepId: string | number) => {
     data = {
       ...data,
       ...wizardValues[stepId]
@@ -28,8 +29,8 @@ function Wizard({
   header,
   wrapper,
   footer
-}) {
-  let initialStep = steps[0]
+}: WizardProps) {
+  let initialStep: Step = steps[0]
   let hashes = {}
   if (enableHash) {
     hashes = buildHashSteps(steps)
@@ -38,17 +39,17 @@ function Wizard({
 
   // State
   const [ activeStep, setActiveStep ] = useState(initialStep)
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [ isLoading, setIsLoading ] = useState<boolean>(false)
   // Gather data of all forms from each step here
-  const [ values, setValues ] = useState({})
+  const [ values, setValues ] = useState<WizardValues>({})
   const formikBag = useRef(null)
 
   // Variables
-  const currentIndex = steps.findIndex(s => s.id === activeStep.id)
-  const stepNumber = currentIndex + 1
-  const totalSteps = steps.length
-  const isFirstStep = stepNumber === 1
-  const isLastStep = stepNumber === totalSteps
+  const currentIndex: number = steps.findIndex(s => s.id === activeStep.id)
+  const stepNumber: number = currentIndex + 1
+  const totalSteps: number = steps.length
+  const isFirstStep: boolean = stepNumber === 1
+  const isLastStep: boolean = stepNumber === totalSteps
 
   // Hash logic
   useEffect(() => {
@@ -60,7 +61,7 @@ function Wizard({
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [activeStep])
 
-  function handleHashChange(e) {
+  function handleHashChange() {
     const step = resolveHashStep(hashes)
     if (step?.id === activeStep.id) {
       return
@@ -69,11 +70,16 @@ function Wizard({
   }
 
   // Step resolve logic
-  async function _getProceedingStep(remainingSteps, newValues, direction) {
+  async function _getProceedingStep(
+    remainingSteps: Step[],
+    newValues: WizardValues,
+    direction: number
+  ) {
     let proceedingStep
     for (let idx = 0; idx < remainingSteps.length; ++idx) {
       const step = remainingSteps[idx]
-      if (!step.hasOwnProperty('shouldSkip')) {
+      // Check if "shouldSkip" attr exists
+      if (step.shouldSkip === undefined) {
         proceedingStep = step
         break
       }
@@ -86,19 +92,14 @@ function Wizard({
     return proceedingStep
   }
 
-  async function _resolveNextStep(newValues) {
+  async function _resolveNextStep(newValues: WizardValues) {
     // Loop remaining steps until non-skippable step is found
     const remainingSteps = steps.slice(currentIndex + 1)
     const nextStep = await _getProceedingStep(remainingSteps, newValues, 1)
-    // No next step found, wizard has been completed
-    // so let's call handleCompleted
-    if (!nextStep) {
-      handleCompleted(newValues)
-    }
     return nextStep
   }
 
-  async function _resolvePreviousStep(newValues) {
+  async function _resolvePreviousStep(newValues: WizardValues) {
     // Loop remaining steps backwards until non-skippable step is found
     const remainingSteps = steps.slice(0, currentIndex).reverse()
     const previousStep = await _getProceedingStep(remainingSteps, newValues, -1)
@@ -106,7 +107,7 @@ function Wizard({
   }
 
   // Step handlers
-  function handleCompleted(values) {
+  function handleCompleted(values: WizardValues) {
     if (!onCompleted) {
       return
     }
@@ -114,20 +115,19 @@ function Wizard({
     onCompleted(values)
   }
 
-  function handleSetActiveStep(step, actions) {
-    if (!step) {
-      return
-    }
+  function handleSetActiveStep(step: Step, actions: FormikHelpers<any> | null) {
     setActiveStep(step)
     // Immediately reset Formik with new initialValues.
     // `enableReinitialize` doesn't update Formik right away
     // with new step's initialValues, causing error message when
     // new step's <Field /> components don't match with provided
     // initialValues.
-    actions.resetForm({ values: getInitialValues(step) })
+    if (actions) {
+      actions.resetForm({ values: getInitialValues(step) })
+    }
   }
 
-  async function handleNext(stepValues, actions) {
+  async function handleNext(stepValues: object, actions: FormikHelpers<any>) {
     try {
       // Run custom submit handler first
       if (activeStep.onSubmit) {
@@ -146,15 +146,21 @@ function Wizard({
       if (onStepChanged) {
         onStepChanged(activeStep, nextStep, wizardValues)
       }
-      handleSetActiveStep(nextStep, actions)
-    } catch (error) {
+      if (nextStep) {
+        handleSetActiveStep(nextStep, actions)
+      } else {
+        // No next step found, wizard has been completed
+        // so let's call handleCompleted
+        handleCompleted(wizardValues)
+      }
+    } catch (error: any) {
       console.log(error)
       setIsLoading(false)
       actions.setStatus(error.message)
     }
   }
 
-  async function handlePrevious(stepValues, actions) {
+  async function handlePrevious(stepValues: object, actions: FormikHelpers<any>) {
     let wizardValues = null
     if (activeStep.keepValuesOnPrevious ?? true) {
       wizardValues = {
@@ -169,45 +175,47 @@ function Wizard({
     if (onStepChanged) {
       onStepChanged(activeStep, previousStep, wizardValues)
     }
-    handleSetActiveStep(previousStep, actions)
+    if (previousStep) {
+      handleSetActiveStep(previousStep, actions)
+    }
   }
 
-  function handleValidate(validate) {
+  function handleValidate(validate: Step['validate']) {
     if (!validate) {
-      return null
+      return
     }
-    return (stepValues) => {
+    return (stepValues: Values) => {
       return validate(stepValues, values)
     }
   }
 
   // Utility functions
-  function goToStep(index, actions) {
+  function goToStep(index: number, actions: FormikHelpers<any>) {
     handleSetActiveStep(steps[index], actions)
   }
 
-  function setHideNext(truthy) {
+  function setHideNext(truthy: boolean) {
     setActiveStep({ ...activeStep, hideNext: truthy })
   }
 
-  function setDisableNext(truthy) {
+  function setDisableNext(truthy: boolean) {
     setActiveStep({ ...activeStep, disableNext: truthy })
   }
 
-  function setHidePrevious(truthy) {
+  function setHidePrevious(truthy: boolean) {
     setActiveStep({ ...activeStep, hidePrevious: truthy })
   }
 
-  function setDisablePrevious(truthy) {
+  function setDisablePrevious(truthy: boolean) {
     setActiveStep({ ...activeStep, disablePrevious: truthy })
   }
 
   // Misc
-  function getInitialValues(step) {
+  function getInitialValues(step: Step) {
     return values[step.id] || step.initialValues || {}
   }
 
-  function getContext(props) {
+  function getContext(props: FormikProps<any>) : WizardContextValues {
     return {
       values,
       setValues,
@@ -218,7 +226,7 @@ function Wizard({
       setIsLoading,
       goToPreviousStep: () => handlePrevious(props.values, props),
       goToNextStep: () => handleNext(props.values, props),
-      goToStep: (index) => goToStep(index, props),
+      goToStep: (index: number) => goToStep(index, props),
       activeStep,
       stepNumber,
       totalSteps,
@@ -238,7 +246,7 @@ function Wizard({
         Object.keys(res).forEach(fieldName => {
           props.setFieldTouched(fieldName, true, false)
         })
-      } : null
+      } : undefined
     }
   }
 
@@ -252,20 +260,17 @@ function Wizard({
       onSubmit={handleNext}
       innerRef={formikBag}
     >
-      {props => {
+      {(props: FormikProps<any>) => {
         const context = getContext(props)
         const content = wrapper || activeStep.component
         return (
           <WizardContext.Provider value={context}>
             <Form>
-              {/* Header */}
               {header}
-              {/* Step */}
               {activeStep.submitOnChange && (
                 <SubmitOnChangeListener step={activeStep} />
               )}
               {content}
-              {/* Footer */}
               {footer}
             </Form>
           </WizardContext.Provider>

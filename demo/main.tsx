@@ -1,13 +1,17 @@
-import React, { createContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import steps from './config/steps'
 import StepWrapper from './components/StepWrapper'
 import Navigation from './components/Navigation'
 import Header from './components/Header'
-import { Wizard } from '../src/index'
+import { Wizard } from '@/index'
 import './styles/main.scss'
 
-export const AppContext = createContext()
+interface AppContextValues {
+  isAnimated: boolean,
+  setIsAnimated: (truthy : boolean) => void
+}
+export const AppContext = createContext<AppContextValues>({} as AppContextValues)
 
 function App() {
   const [ isAnimated, setIsAnimated ] = useState(true)
@@ -17,7 +21,7 @@ function App() {
         enableHash
         steps={steps}
         onStepChanged={(fromStep, toStep, wizardValues) => {
-          console.log('step changed', fromStep.id, toStep?.id, wizardValues)
+          console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
         }}
         header={<Header />}
         wrapper={<StepWrapper />}
@@ -27,6 +31,6 @@ function App() {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <App />
 )

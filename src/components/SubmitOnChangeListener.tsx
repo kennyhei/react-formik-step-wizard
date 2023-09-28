@@ -1,7 +1,12 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useFormikContext } from 'formik'
+import { StepConfig as Step } from '../types'
 
-function SubmitOnChangeListener({ step }) {
+interface Props {
+  step: Step
+}
+
+function SubmitOnChangeListener({ step }: Props) {
   const { submitForm, setFieldValue } = useFormikContext()
 
   useEffect(() => {
@@ -9,18 +14,19 @@ function SubmitOnChangeListener({ step }) {
     if (!fieldNames) {
       return
     }
-    fieldNames.forEach(fieldName => {
+    fieldNames.forEach((fieldName: string) => {
       const inputs = document.querySelectorAll(`input[name='${fieldName}']`)
       for (let i = 0; i < inputs.length; ++i) {
         inputs[i].addEventListener('click', (e) => {
-          setFieldValue(fieldName, e.target.value)
+          const value = (e.target as HTMLInputElement).value
+          setFieldValue(fieldName, value)
           setTimeout(submitForm, 0)
         })
       }
     })
   }, [])
 
-  function getInitialValuesFieldNames(step) {
+  function getInitialValuesFieldNames(step: Step) {
     if (!step.initialValues) {
       return []
     }
