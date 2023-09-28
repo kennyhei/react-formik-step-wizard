@@ -1,6 +1,9 @@
 {
   "extends": "../tsconfig",
-  // Base config is fine but we want to override "include" from "/src/" to "/demo/"
-  // "demo" folder has its own tsconfig file so that it's not included in build phase
+  /*
+    Base config is fine but we want to override "include" from "/src/" to "/demo/".
+    The reason why "demo" folder has its own tsconfig is that we don't want to include
+    demo code to production build.
+  */
   "include": ["./"]
 }
