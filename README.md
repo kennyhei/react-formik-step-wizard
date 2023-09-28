@@ -198,7 +198,7 @@ Each step object defines `component` that is used to render the step. `Wizard` w
 
 Usually you would need to define at least `initialValues` and `validationSchema` / `validate` (presuming that your step `component` contains form fields).
 
-You can view the full list of step options [here](#step-configuration).
+You can view the full list of step options [here](#step-object).
 
 ### 2. Writing your step component(s)
 
