@@ -1,5 +1,3 @@
-import React from 'react'
-
 function StepAsync() {
   return (
     <div className='prose max-w-none'>

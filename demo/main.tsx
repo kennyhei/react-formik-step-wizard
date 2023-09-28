@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import steps from './config/steps'
 import StepWrapper from './components/StepWrapper'

@@ -1,5 +1,4 @@
-import React from 'react'
-import { useWizard } from '../../../src/index'
+import { useWizard } from '@/index'
 
 function StepEmailCheck() {
   const { goToStep } = useWizard()

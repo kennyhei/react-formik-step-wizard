@@ -1,11 +1,16 @@
 import { ErrorMessage, Field } from 'formik'
-import React from 'react'
+
+interface Props {
+  activeStep : any,
+  initialValues: any,
+  values: any
+}
 
 function DefaultStepContentRenderer({
   activeStep,
   initialValues,
   values
-}) {
+} : Props) {
 
   function humanize(value: string) {
     value = value[0].toUpperCase() + value.slice(1)

@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { Values, WizardValues } from '../../src/types'
+import { WizardValues, Values } from '@/types'
 
 /* Schemas for <Formik validationSchema> */
 

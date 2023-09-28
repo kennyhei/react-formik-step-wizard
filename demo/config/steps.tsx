@@ -1,4 +1,3 @@
-import React from 'react'
 import { ContactInfoSchema, validateUsername } from './validation'
 import { Values, WizardValues } from '../../src/types'
 import { FormikHelpers } from 'formik'
@@ -67,7 +66,7 @@ const steps = [
   {
     id: 'Async',
     component: <StepAsync />,
-    onSubmit: async (stepValues : Values, allValues : WizardValues, actions : FormikHelpers<any>) => {
+    onSubmit: async (stepValues : Values, _allValues : WizardValues, _actions : FormikHelpers<any>) => {
       const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
       await delay(2000)
       return stepValues

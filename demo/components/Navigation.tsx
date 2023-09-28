@@ -1,8 +1,6 @@
-import React from 'react'
 import { useWizard } from '../../src/index'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 import ClipLoader from 'react-spinners/ClipLoader'
-
 
 function Navigation() {
   let {

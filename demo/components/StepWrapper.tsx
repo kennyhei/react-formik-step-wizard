@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { useWizard } from '../../src/index'
+import { useContext } from 'react'
+import { useWizard } from '@/index'
 import { AnimatePresence, motion } from 'framer-motion'
 import DefaultStepContentRenderer from './DefaultStepContentRenderer'
 import { useFormikContext } from 'formik'
