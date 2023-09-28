@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
       minify: true,
       cssMinify: true,
       lib: {
-        entry: path.resolve(__dirname, 'demo/main.jsx'),
+        entry: path.resolve(__dirname, 'demo/main.tsx'),
         name: 'react-formik-step-wizard',
         formats: ['es'],
         fileName: (format) => `react-formik-step-wizard.${format}.js`
