@@ -96,11 +96,6 @@ function Wizard({
     // Loop remaining steps until non-skippable step is found
     const remainingSteps = steps.slice(currentIndex + 1)
     const nextStep = await _getProceedingStep(remainingSteps, newValues, 1)
-    // No next step found, wizard has been completed
-    // so let's call handleCompleted
-    if (!nextStep) {
-      handleCompleted(newValues)
-    }
     return nextStep
   }
 
@@ -153,6 +148,10 @@ function Wizard({
       }
       if (nextStep) {
         handleSetActiveStep(nextStep, actions)
+      } else {
+        // No next step found, wizard has been completed
+        // so let's call handleCompleted
+        handleCompleted(wizardValues)
       }
     } catch (error: any) {
       console.log(error)
