@@ -9671,8 +9671,8 @@ attempted value: ${s}
       return J;
     }
     async function T(k) {
-      const R = e.slice(P + 1), H = await C(R, k, 1);
-      return H || L(k), H;
+      const R = e.slice(P + 1);
+      return await C(R, k, 1);
     }
     async function _(k) {
       const R = e.slice(0, P).reverse();
@@ -9693,7 +9693,7 @@ attempted value: ${s}
         };
         g(H);
         const J = await T(H);
-        n && n(u, J, H), J && O(J, R);
+        n && n(u, J, H), J ? O(J, R) : L(H);
       } catch (H) {
         console.log(H), d(!1), R.setStatus(H.message);
       }
