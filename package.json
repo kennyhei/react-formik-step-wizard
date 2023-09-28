@@ -6,7 +6,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types.d.ts",
   "module": "./dist/react-formik-step-wizard.es.js",
   "files": [
     "dist",
