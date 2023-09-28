@@ -1,4 +1,4 @@
-import { StepValues as Step } from '../types'
+import { StepConfig as Step } from '../types'
 
 interface StepHash {
   [field: string]: Step
