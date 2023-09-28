@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { useWizard } from '../../src/index'
+import { useWizard } from '@/index'
 import { AppContext } from '../main'
 
 function Header() {

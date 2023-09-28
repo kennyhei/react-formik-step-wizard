@@ -1,4 +1,4 @@
-import { useWizard } from '../../src/index'
+import { useWizard } from '@/index'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 import ClipLoader from 'react-spinners/ClipLoader'
 
