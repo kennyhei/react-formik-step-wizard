@@ -5,7 +5,6 @@ import StepEmailCheck from '../components/steps/StepEmailCheck'
 import StepAsync from '../components/steps/StepAsync'
 import StepFinal from '../components/steps/StepFinal'
 
-
 const steps : StepConfig[] = [
   {
     id: 'ContactInfo',
