@@ -60,7 +60,7 @@ Yarn:
 yarn add react-formik-step-wizard formik
 ```
 
-**Note:** It is also recommended to install `yup` for validation and examples below use it. You can install `yup` with `npm install yup` or `yarn add yup`.
+**Note:** It is also recommended to install `yup` for validation and examples below use it. You can install `yup` with `npm install yup` or `yarn add yup`. However, it's not mandatory as you can define `validate` function for [steps](#step-object) as well. 
 
 ## Quickstart
 
