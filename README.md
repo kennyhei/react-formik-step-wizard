@@ -70,16 +70,9 @@ import * as Yup from 'yup'
 function StepName() {
   return (
     <div>
-      <div>
-        <label htmlFor="firstName">First name</label>
-        <Field id="firstName" name="firstName" type="text" />
-        <ErrorMessage name="firstName" />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last name</label>
-        <Field id="lastName" name="lastName" type="text" />
-        <ErrorMessage name="lastName" />
-      </div>
+      <label htmlFor="name">Name</label>
+      <Field id="name" name="name" type="text" />
+      <ErrorMessage name="name" />
     </div>
   )
 }
@@ -96,7 +89,7 @@ function StepAge() {
 
 function StepFinal() {
   const { values } = useWizard()
-  const fullName = `${values.StepName.firstName} ${values.StepName.lastName}`
+  const name = values.StepName.name
   const age = values.StepAge.age
   return (
     <div>
@@ -114,8 +107,7 @@ function App() {
       id: 'StepName',
       component: <StepName />,
       initialValues: {
-        firstName: 'John',
-        lastName: 'Doe'
+        name: 'John'
       },
       validationSchema: Yup.object({
         firstName: Yup.string().required('This field is required'),
@@ -202,20 +194,33 @@ You can view the full list of step options [here](#step-object).
 
 ### 2. Writing your step component(s)
 
-If you plan to have form fields in your step component, you should use Formik's `Field` component to render fields and `ErrorMessage` to render error messages. For instance, this is what `StepName` could look like:
+If you plan to have form fields in your step component, you should use Formik's `Field` component to render fields and `ErrorMessage` to render error messages. For instance, this is what `StepName` and `StepAge` could look like:
 
 ```js
 import { Field, ErrorMessage } from 'formik'
 import { useWizard } from 'react-formik-step-wizard'
 
 function StepName() {
-  const { goToPreviousStep } = useWizard()
   return (
     <div>
       <div>
         <label htmlFor="name">Name</label>
         <Field id="name" name="name" type="text" />
         <ErrorMessage name="name" />
+      </div>
+      <button type="submit">Next</button>
+    </div>
+  )
+}
+
+function StepAge() {
+  const { goToPreviousStep } = useWizard()
+  return (
+    <div>
+      <div>
+        <label htmlFor="age">Name</label>
+        <Field id="age" name="age" type="number" />
+        <ErrorMessage name="age" />
       </div>
       <button type="button" onClick={goToPreviousStep}>Previous</button>
       <button type="submit">Next</button>
@@ -224,7 +229,7 @@ function StepName() {
 }
 ```
 
-Note that we retrieve `goToPreviousStep` utility function from `useWizard` hook. You can read more about it [here](#usewizard). You can write `StepAge` the same way if you wish.
+Note that we retrieve `goToPreviousStep` utility function from `useWizard` hook. You can read more about it [here](#usewizard).
 
 ### 3. Setting up the Wizard
 
@@ -462,8 +467,8 @@ List of step objects that are passed to `Wizard` have various options you can se
 
 | Name                 | Type                                                          | Required | Default | Description                                                                                                                                                                                                                                                                                                       |
 |----------------------|---------------------------------------------------------------|----------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                   | string                                                        | ✅      |         | Unique ID for step component.                                                                                                                                                                                                                                                                                     |
-| `component`            | ReactElement                                               | ✅      |         | Component used for rendering step content.                                                                                                                                                                                                                                                                        |
+| `id`                   | string                                                        | ✅      |         | Unique ID for step component. Form values inputted by user are stored in the Wizard's `values` object under step ID key. E.g. `{ [id]: { [field]: [value] } }`. Values can be retrieved from Wizard using `useWizard` hook.                                                                                                                                                                                                                                                                                    |
+| `component`            | ReactElement                                               | ❌      |         | Component used for rendering step content. Usually this is always required unless you implement default component object like in the `demo/` code.                                                                                                                                                                                                                                                                       |
 | `initialValues`        | object                                                        | ❌       | {}      | Contains key-value pairs for step's form fields.<br /><br /><b>Example:</b><br />`initialValues: { name: '', email: '' }`                                                                                                                                                                                                               |
 | `submitOnChange`       | boolean                                                       | ❌       | false   | Submits form on field change. Useful when user e.g. has to pick a choice from  `radio` buttons.                                                                                                                                                                                                                   |
 | `hideNext`             | boolean                                                       | ❌       | false   | Indicates whether to hide submit button.                                                                                                                           |
@@ -473,7 +478,7 @@ List of step objects that are passed to `Wizard` have various options you can se
 | `disablePrevious`      | boolean                                                       | ❌       | false    | Indicates whether to disable "Previous" button.                                 |
 | `keepValuesOnPrevious` | boolean                                                       | ❌       | true    | Remembers inputted values in current step if user decides to navigate back to previous step without submitting the form.                                                                                                                                                                                          |
 | `shouldSkip`           | async (allValues, direction) => stepValues | ❌       |         | Function that returns boolean telling whether the step should be skipped or not.<br /><br /><b>Params:</b><br />- `allValues`: all form field values from previous steps<br />- `direction`: Tells whether user came to the current step by pressing "Previous" (-1) or by pressing "Next" (1)                                                                         |
-| `onSubmit`             | async (stepValues, allValues, actions) => stepValues | ❌ | Function that serves as a custom submit handler where you can do things after successful form submission. You should return `stepValues`.
+| `onSubmit`             | async (stepValues, allValues, actions) => stepValues | ❌ | | Function that serves as a custom submit handler where you can do things after successful form submission. You should return `stepValues`.
 <br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps<br />- `actions`: Includes Formik helper functions
 | `validate`             | (stepValues, allValues) => object                             | ❌       |         | Validate the form's values with a function. If there are errors, return object containing field's name as key and error message as value.<br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps                                              |
 | `validationSchema`     | Yup.object                                                    | ❌       |         | A Yup schema. This is used for validation. Errors are mapped by key to the inner component's errors. Its keys should match of those values. Example here: [ https://formik.org/docs/guides/validation#validationschema ]( https://formik.org/docs/guides/validation#validationschema )          |
@@ -540,10 +545,10 @@ function NonSkippableStep() {
       <p>This is non-skippable step.</p>
       <p>Type "skip" if you want to skip next step.</p>
       <div>
-        <Field name='text' type='text' />
-        <ErrorMessage name='text' />
+        <Field name="text" type="text" />
+        <ErrorMessage name="text" />
       </div>
-      <button type='submit'>Next</button>
+      <button type="submit">Next</button>
     </div>
   )
 }
@@ -553,8 +558,8 @@ function SkippableStep() {
   return (
     <div>
       <p>This is skipped if user typed "skip" in previous step.</p>
-      <button type='button' onClick={goToPreviousStep}>Previous</button>
-      <button type='submit'>Next</button>
+      <button type="button" onClick={goToPreviousStep}>Previous</button>
+      <button type="submit">Next</button>
     </div>
   )
 }
@@ -564,7 +569,7 @@ function FinalStep() {
   return (
     <div>
       <h1>You did it!</h1>
-      <button type='button' onClick={goToPreviousStep}>
+      <button type="button" onClick={goToPreviousStep}>
         Previous
       </button>
     </div>
@@ -724,7 +729,7 @@ const steps = [
 function Wrapper() {
   const { activeStep } = useWizard()
   return (
-    <AnimatePresence mode='wait'>
+    <AnimatePresence mode="wait">
       <motion.div
         key={activeStep.id}
         initial={{ opacity: 0 }}
