@@ -108,21 +108,16 @@ function App() {
     {
       id: 'StepName',
       component: <StepName />,
-      initialValues: {
-        name: 'John'
-      },
+      initialValues: { name: 'John' },
       validationSchema: Yup.object({
-        firstName: Yup.string().required('This field is required'),
-        lastName: Yup.string().required('This field is required')
+        name: Yup.string().required('This field is required'),
       }),
       hidePrevious: true
     },
     {
       id: 'StepAge',
       component: <StepAge />,
-      initialValues: {
-        age: 30
-      },
+      initialValues: { age: 30 },
       validationSchema: Yup.object({
         age: Yup.number().min(0).max(125).required('This field is required')
       })
