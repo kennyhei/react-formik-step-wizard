@@ -96,7 +96,7 @@ function StepFinal() {
   return (
     <div>
       <h1>You did it!</h1>
-      <p>Your name is {fullName} and your age is {age}.</p>
+      <p>Your name is {name} and your age is {age}.</p>
       <p>Press button to complete the wizard.</p>
       <button type="submit">Finish</button>
     </div>
