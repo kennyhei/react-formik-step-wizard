@@ -57,10 +57,12 @@ npm install react-formik-step-wizard
 
 Yarn:
 ```
-yarn add react-formik-step-wizard
+yarn add react-formik-step-wizard formik
 ```
 
 ## Quickstart
+
+For quickstart example you should also add `yup` with `npm install yup` or `yarn add yup`.
 
 ```js
 import React from 'react'
