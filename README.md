@@ -2,6 +2,8 @@
 
 React multistep wizard with Formik integration
 
+[![npm version](https://badge.fury.io/js/react-formik-step-wizard.svg)](https://badge.fury.io/js/react-formik-step-wizard)
+
 ## Table of Contents
 
 - [Demo](#demo)
