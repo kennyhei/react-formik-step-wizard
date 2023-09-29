@@ -60,9 +60,9 @@ Yarn:
 yarn add react-formik-step-wizard formik
 ```
 
-## Quickstart
+**Note:** It is also recommended to install `yup` for validation and examples below use it. You can install `yup` with `npm install yup` or `yarn add yup`.
 
-For quickstart example you should also add `yup` with `npm install yup` or `yarn add yup`.
+## Quickstart
 
 ```js
 import React from 'react'
