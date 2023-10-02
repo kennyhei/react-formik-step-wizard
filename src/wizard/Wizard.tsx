@@ -66,7 +66,7 @@ function Wizard({
     if (step?.id === activeStep.id) {
       return
     }
-    handleSetActiveStep(step, formikBag.current)
+    handleSetActiveStep(step, formikBag.current!)
   }
 
   // Step resolve logic
@@ -115,16 +115,14 @@ function Wizard({
     onCompleted(values)
   }
 
-  function handleSetActiveStep(step: Step, actions: FormikHelpers<any> | null) {
+  function handleSetActiveStep(step: Step, actions: FormikHelpers<any>) {
     setActiveStep(step)
     // Immediately reset Formik with new initialValues.
     // `enableReinitialize` doesn't update Formik right away
     // with new step's initialValues, causing error message when
     // new step's <Field /> components don't match with provided
     // initialValues.
-    if (actions) {
-      actions.resetForm({ values: getInitialValues(step) })
-    }
+    actions.resetForm({ values: getInitialValues(step) })
   }
 
   async function handleNext(stepValues: object, actions: FormikHelpers<any>) {
