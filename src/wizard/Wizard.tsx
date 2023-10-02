@@ -142,17 +142,17 @@ function Wizard({
       }
       setValues(wizardValues)
       const nextStep = await _resolveNextStep(wizardValues)
+      if (!nextStep) {
+        // No next step found, wizard has been completed
+        // so let's call handleCompleted
+        handleCompleted(wizardValues)
+        return
+      }
       // Additional handler when step is changed
       if (onStepChanged) {
         onStepChanged(activeStep, nextStep, wizardValues)
       }
-      if (nextStep) {
-        handleSetActiveStep(nextStep, actions)
-      } else {
-        // No next step found, wizard has been completed
-        // so let's call handleCompleted
-        handleCompleted(wizardValues)
-      }
+      handleSetActiveStep(nextStep, actions)
     } catch (error: any) {
       console.log(error)
       setIsLoading(false)
@@ -171,13 +171,14 @@ function Wizard({
     }
     wizardValues = wizardValues || values
     const previousStep = await _resolvePreviousStep(wizardValues)
+    if (!previousStep) {
+      return
+    }
     // Additional handler when step is changed
     if (onStepChanged) {
       onStepChanged(activeStep, previousStep, wizardValues)
     }
-    if (previousStep) {
-      handleSetActiveStep(previousStep, actions)
-    }
+    handleSetActiveStep(previousStep, actions)
   }
 
   function handleValidate(validate: Step['validate']) {
