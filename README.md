@@ -353,11 +353,11 @@ If you wish to include a shared navigation for all steps in your wizard, you can
 - `isFirstStep`: Boolean indicating whether step is first step.
 - `isLastStep`: Boolean indicating whether step is last step.
 - `isLoading`: Boolean indicating whether step is in loading state.
-- `hidePrevious`: Boolean indicating whether "Previous" button should be hidden. This comes from step object.
-- `disablePrevious`: Boolean indicating whether "Previous" button should be disabled. This comes from step object.
-- `hideNext`: Boolean indicating whether "Next" button should be hidden. This comes from step object.
-- `disableNext`: Boolean indicating whether "Next" button should be disabled. This comes from step object.
-- `onClickDisabledNext`: Function that validates form when `disableNext` is `true`. Useful ONLY if you want to allow form validation even when "Next" button is disabled.
+- `activeStep.hidePrevious`: Boolean indicating whether "Previous" button should be hidden.
+- `activeStep.disablePrevious`: Boolean indicating whether "Previous" button should be disabled.
+- `activeStep.hideNext`: Boolean indicating whether "Next" button should be hidden.
+- `activeStep.disableNext`: Boolean indicating whether "Next" button should be disabled.
+- `activeStep.disableNextOnErrors`: Boolean indicating whether "Next" button should be disabled if form has errors.
 
 Here's an example of simple navigation component:
 
@@ -376,13 +376,16 @@ function Navigation() {
     isFirstStep,
     isLastStep,
     isLoading,
-    hidePrevious,
-    disablePrevious,
-    hideNext,
-    disableNext,
-    disableNextOnErrors,
-    onClickDisabledNext
+    activeStep: {
+      hidePrevious,
+      disablePrevious,
+      hideNext,
+      disableNext,
+      disableNextOnErrors
+    }
   } = useWizard()
+  const { isValid, submitForm } = useFormikContext()
+  const isDisabled = disableNext || isLoading || (disableNextOnErrors && !isValid)
 
   if (isLoading) {
     return 'Loading...'
@@ -394,8 +397,8 @@ function Navigation() {
         <button type="button" onClick={goToPreviousStep} disabled={disablePrevious}>Previous</button>
       )}
       {!hideNext && (
-        <div onClick={onClickDisabledNext}>
-          <button type="submit" disabled={disableNext}>Next</button>
+        <div onClick={isDisabled ? submitForm : undefined}>
+          <button type="submit" disabled={isDisabled}>Next</button>
         </div>
       )}
     </div>
@@ -510,10 +513,7 @@ List of step objects that are passed to `Wizard` have various options you can se
 | `isLoading`           | boolean                   | Is step in loading state or not. Set to `true` when `step.onSubmit` handler is called and back to `false` when executing handler is done.                                                                                                                      |
 | `isFirstStep`       | boolean                   | Is the currently active step the first step.                                                                                                          |
 | `isLastStep`        | boolean                   | Is the currently active step the last step.                                                                                                           |
-| `setHideNext`    | (truthy: boolean) => void | Function used to set the step object's value of `hideNext` attribute.                      |
-| `setDisableNext` | (truthy: boolean) => void | Function used to set the step object's value of `disableNext` attribute.               |
-| `setHidePrevious` | (truthy: boolean) => void | Function used to set the step object's value of `hidePrevious` attribute. |
-| `setDisablePrevious` | (truthy: boolean) => void | Function used to set the step object's value of `disablePrevious` attribute. |
+| `updateStepConfig`    | (key: string, value: any) => void | Function used to set the step object's `[key]` attribute to `value`.                      |
 | `setIsLoading`     | (truthy: boolean) => void | Function used to set the value of `isLoading` attribute.                                     |
 | `goToPreviousStep`  | function                  | Go to previous step.                                                                                                                                  |
 | `goToStep`          | (index) => void           | Go to step at the specified index.                                                                                                                    |

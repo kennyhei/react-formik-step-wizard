@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useWizard } from '@/index'
 
 function StepFinal() {
-  const { values, setHideNext } = useWizard()
+  const { values, updateStepConfig } = useWizard()
   const [ truthy, setTruthy ] = useState(true)
 
   function toggle() {
     const res = !truthy
     setTruthy(res)
-    setHideNext(res)
+    updateStepConfig('hideNext', res)
   }
 
   let data = {}
