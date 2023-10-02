@@ -20,9 +20,9 @@ export const ContactInfoSchema = Yup.object({
 export function validateUsername(stepValues: Values, values: WizardValues) {
   const errors: any = {}
   if (!stepValues.username) {
-    errors.username = 'This field is required.'
+    errors.username = 'This field is required'
   } else if (!stepValues.username.toLowerCase().includes(values.ContactInfo.firstName.toLowerCase())) {
-    errors.username = `Username should contain your first name (${values.ContactInfo.firstName}).`
+    errors.username = `Username should contain your first name (${values.ContactInfo.firstName})`
   }
   return errors
 }

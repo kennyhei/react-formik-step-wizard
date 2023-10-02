@@ -201,20 +201,8 @@ function Wizard({
     handleSetActiveStep(steps[index], actions)
   }
 
-  function setHideNext(truthy: boolean) {
-    setActiveStep({ ...activeStep, hideNext: truthy })
-  }
-
-  function setDisableNext(truthy: boolean) {
-    setActiveStep({ ...activeStep, disableNext: truthy })
-  }
-
-  function setHidePrevious(truthy: boolean) {
-    setActiveStep({ ...activeStep, hidePrevious: truthy })
-  }
-
-  function setDisablePrevious(truthy: boolean) {
-    setActiveStep({ ...activeStep, disablePrevious: truthy })
+  function updateStepConfig(key: string, value: any) {
+    setActiveStep({ ...activeStep, [key]: value })
   }
 
   // Misc
@@ -226,11 +214,8 @@ function Wizard({
     return {
       values,
       setValues,
-      setHideNext,
-      setDisableNext,
-      setHidePrevious,
-      setDisablePrevious,
       setIsLoading,
+      updateStepConfig,
       goToPreviousStep: () => handlePrevious(props.values, props),
       goToNextStep: () => handleNext(props.values, props),
       goToStep: (index: number) => goToStep(index, props),
@@ -239,21 +224,7 @@ function Wizard({
       totalSteps,
       isLoading,
       isFirstStep,
-      isLastStep,
-      // navigation
-      hidePrevious: activeStep.hidePrevious,
-      hideNext: activeStep.hideNext,
-      disableNext: activeStep.disableNext,
-      disablePrevious: activeStep.disablePrevious,
-      disableNextOnErrors: activeStep.disableNextOnErrors && !props.isValid,
-      // allow form validation even if btn is disabled to show validation errors
-      onClickDisabledNext: (activeStep.disableNext || activeStep.disableNextOnErrors) ? async () => {
-        const res = await props.validateForm()
-        // field error is not shown after validation if "touched" attribute is not set to true
-        Object.keys(res).forEach(fieldName => {
-          props.setFieldTouched(fieldName, true, false)
-        })
-      } : undefined
+      isLastStep
     }
   }
 
