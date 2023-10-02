@@ -25,7 +25,7 @@ export interface StepConfig {
   */
   readonly id: string,
   /** Component used for rendering step content */
-  readonly component?: React.ReactNode,
+  readonly component?: React.ReactElement,
   /** Initial values of the step's form */
   initialValues?: {
     [field: string]: any
@@ -90,7 +90,7 @@ export interface WizardProps {
    * 
    * @param values Object containing all form field values from previous steps
    */
-  onCompleted?: (values : Values) => void,
+  onCompleted?: (values: Values) => void,
   /**
    * Function that is called when step is changed to another one
    * @param fromStep Current step object when function was called
@@ -101,26 +101,18 @@ export interface WizardProps {
   /** Persists the current step in the URL (hash) */
   enableHash?: boolean,
   /** Optional header that is shown above the active step */
-  header?: React.ReactNode,
+  header?: React.ReactElement,
   /** Optional wrapper that is wrapped around the active step component */
-  wrapper?: React.ReactNode,
+  wrapper?: React.ReactElement,
   /** Optional footer that is shown below the active step */
-  footer?: React.ReactNode
+  footer?: React.ReactElement
 }
 
 export interface WizardContextValues {
   /** Object containing all form field values from previous steps */
   values: WizardValues,
-  /** Function for updating values */
-  setValues: (newValues : WizardValues) => void,
-  /** Function for updating the value of `activeStep.hideNext` */
-  setHideNext: (truthy : boolean) => void,
-  /** Function for updating the value of `activeStep.disableNext` */
-  setDisableNext: (truthy : boolean) => void,
-  /** Function for updating the value of `activeStep.hidePrevious` */
-  setHidePrevious: (truthy: boolean) => void,
-  /** Function for updating the value of `activeStep.disablePrevious` */
-  setDisablePrevious: (truthy: boolean) => void,
+  /** Function for updating `Wizard.values` */
+  setValues: (newValues: WizardValues) => void,
   /** Function for updating the value of `Wizard.isLoading` */
   setIsLoading: (truthy: boolean) => void,
   /** Go to previous step */
@@ -128,7 +120,16 @@ export interface WizardContextValues {
   /** Go to next step */
   goToNextStep: () => void,
   /** Go to step specified by index */
-  goToStep: (index : number) => void,
+  goToStep: (index: number) => void,
+  /** Function for updating `activeStep`'s `[key]` attribute with `value`
+   * 
+   * @example
+   * ```jsx
+   * const { updateStep } = useWizard()
+   * updateStep('hideNext', false)
+   * ```
+  */
+  updateStep: (key: string, value: any) => void,
   /** Currently active step's config object */
   activeStep: StepConfig,
   /** Current index, numbering starts from 1 */
@@ -139,16 +140,5 @@ export interface WizardContextValues {
   /** Is currently active step first step */
   isFirstStep: boolean,
   /** Is currently active step last step */
-  isLastStep: boolean,
-  /** Value of `activeStep.hidePrevious` */
-  hidePrevious?: boolean,
-  /** Value of `activeStep.hideNext` */
-  hideNext?: boolean,
-  /** Value of `activeStep.disableNext` */
-  disableNext?: boolean,
-  /** Value of `activeStep.disablePrevious` */
-  disablePrevious?: boolean,
-  disableNextOnErrors?: boolean,
-  /** Function that can be used to validate step even if submit button is disabled */
-  onClickDisabledNext?: () => Promise<void>
+  isLastStep: boolean
 }

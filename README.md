@@ -250,13 +250,18 @@ Now you can pass the list to `Wizard`:
 If we look at [Quickstart](#quickstart) example, then `onStepChanged` would print this after user has completed first step:
 
 ```js
-> step changed, StepName, StepAge, { StepName: { firstName: 'John', lastName: 'Doe' }}
+> step changed, StepName, StepAge, { StepName: { firstName: 'John', lastName: 'Doe' } }
 ```
 
-After user has completed the wizard, `onStepChanged` and `onCompleted` would print this:
+After second step:
 
 ```js
-> step changed, StepFinal, undefined, { StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 } }
+> step changed, StepAge, StepFinal, { StepName: { firstName: 'John', lastName: 'Doe' }, { StepAge: { age: 30 } } }
+```
+
+After user has completed the wizard, `onCompleted` would print this:
+
+```js
 > wizard completed, { firstName: 'John', lastName: 'Doe', age: 30 }
 ```
 
@@ -353,11 +358,12 @@ If you wish to include a shared navigation for all steps in your wizard, you can
 - `isFirstStep`: Boolean indicating whether step is first step.
 - `isLastStep`: Boolean indicating whether step is last step.
 - `isLoading`: Boolean indicating whether step is in loading state.
-- `hidePrevious`: Boolean indicating whether "Previous" button should be hidden. This comes from step object.
-- `disablePrevious`: Boolean indicating whether "Previous" button should be disabled. This comes from step object.
-- `hideNext`: Boolean indicating whether "Next" button should be hidden. This comes from step object.
-- `disableNext`: Boolean indicating whether "Next" button should be disabled. This comes from step object.
-- `onClickDisabledNext`: Function that validates form when `disableNext` is `true`. Useful ONLY if you want to allow form validation even when "Next" button is disabled.
+- `activeStep`:
+  - `hidePrevious`: Boolean indicating whether "Previous" button should be hidden.
+  - `disablePrevious`: Boolean indicating whether "Previous" button should be disabled.
+  - `hideNext`: Boolean indicating whether "Next" button should be hidden.
+  - `disableNext`: Boolean indicating whether "Next" button should be disabled.
+  - `disableNextOnErrors`: Boolean indicating whether "Next" button should be disabled if form has errors.
 
 Here's an example of simple navigation component:
 
@@ -376,13 +382,17 @@ function Navigation() {
     isFirstStep,
     isLastStep,
     isLoading,
-    hidePrevious,
-    disablePrevious,
-    hideNext,
-    disableNext,
-    disableNextOnErrors,
-    onClickDisabledNext
+    activeStep: {
+      hidePrevious,
+      disablePrevious,
+      hideNext,
+      disableNext,
+      disableNextOnErrors
+    }
   } = useWizard()
+  const { isValid, submitForm } = useFormikContext()
+  const isPreviousDisabled = disablePrevious || isLoading
+  const isNextDisabled = disableNext || isLoading || (disableNextOnErrors && !isValid)
 
   if (isLoading) {
     return 'Loading...'
@@ -391,11 +401,11 @@ function Navigation() {
   return (
     <div>
       {!hidePrevious && (
-        <button type="button" onClick={goToPreviousStep} disabled={disablePrevious}>Previous</button>
+        <button type="button" onClick={goToPreviousStep} disabled={isPreviousDisabled}>Previous</button>
       )}
       {!hideNext && (
-        <div onClick={onClickDisabledNext}>
-          <button type="submit" disabled={disableNext}>Next</button>
+        <div onClick={isNextDisabled ? submitForm : undefined}>
+          <button type="submit" disabled={isNextDisabled}>Next</button>
         </div>
       )}
     </div>
@@ -464,39 +474,38 @@ function Step1() {
 
 List of step objects that are passed to `Wizard` have various options you can set. Here's the full specification:
 
-| Name                 | Type                                                          | Required | Default | Description                                                                                                                                                                                                                                                                                                       |
-|----------------------|---------------------------------------------------------------|----------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                   | string                                                        | ✅      |         | Unique ID for step component. Form values inputted by user are stored in the Wizard's `values` object under step ID key. E.g. `{ [id]: { [field]: [value] } }`. Values can be retrieved from Wizard using `useWizard` hook.                                                                                                                                                                                                                                                                                    |
-| `component`            | ReactElement                                               | ❌      |         | Component used for rendering step content. Usually this is always required unless you implement default component object like in the `demo/` code.                                                                                                                                                                                                                                                                       |
-| `initialValues`        | object                                                        | ❌       | {}      | Contains key-value pairs for step's form fields.<br /><br /><b>Example:</b><br />`initialValues: { name: '', email: '' }`                                                                                                                                                                                                               |
-| `submitOnChange`       | boolean                                                       | ❌       | false   | Submits form on field change. Useful when user e.g. has to pick a choice from  `radio` buttons.                                                                                                                                                                                                                   |
-| `hideNext`             | boolean                                                       | ❌       | false   | Indicates whether to hide submit button.                                                                                                                           |
-| `hidePrevious`         | boolean                                                       | ❌       | false   | Indicates whether to hide "Previous" button.                                                                                                                                                                                                                                                                    |
-| `disableNext`          | boolean                                                       | ❌       | false   | Indicates whether to disable submit button.                                                                                                                                                                                                                                                                 |
-| `disableNextOnErrors`  | boolean                                                       | ❌       | false    | Indicates whether to disable submit button when form has errors.            |
-| `disablePrevious`      | boolean                                                       | ❌       | false    | Indicates whether to disable "Previous" button.                                 |
-| `keepValuesOnPrevious` | boolean                                                       | ❌       | true    | Remembers inputted values in current step if user decides to navigate back to previous step without submitting the form.                                                                                                                                                                                          |
-| `shouldSkip`           | async (allValues, direction) => stepValues | ❌       |         | Function that returns boolean telling whether the step should be skipped or not.<br /><br /><b>Params:</b><br />- `allValues`: all form field values from previous steps<br />- `direction`: Tells whether user came to the current step by pressing "Previous" (-1) or by pressing "Next" (1)                                                                         |
-| `onSubmit`             | async (stepValues, allValues, actions) => stepValues | ❌ | | Function that serves as a custom submit handler where you can do things after successful form submission. You should return `stepValues`.<br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps<br />- `actions`: Includes Formik helper functions
-| `validate`             | (stepValues, allValues) => object                             | ❌       |         | Validate the form's values with a function. If there are errors, return object containing field's name as key and error message as value.<br /><br /><b>Params:</b><br />- `stepValues`: form field values filled in current step<br />- `allValues`: all form field values from previous steps                                              |
-| `validationSchema`     | Yup.object                                                    | ❌       |         | A Yup schema. This is used for validation. Errors are mapped by key to the inner component's errors. Its keys should match of those values. Example here: [ https://formik.org/docs/guides/validation#validationschema ]( https://formik.org/docs/guides/validation#validationschema )          |
-| `validateOnBlur`       | boolean                                                       | ❌       | true   | Use this option to tell Formik to run validations on blur events.                                                                                                                                                                                                                                                 |
-| `validateOnChange`     | boolean                                                       | ❌       | true   | Use this option to tell Formik to run validations on change events.                                                                                                                                                                                                                                               |
+| Name                   | Type                                                 | Default | Description                                                                                                                                                                                                                                                                                                                       |
+|------------------------|------------------------------------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                   | `string`                                               |         | _**(Required)**_ Unique ID for step component. Form values inputted by user are stored in the Wizard's `values` object under step ID key. E.g. `{ [id]: { [field]: [value] } }`. Values can be retrieved from Wizard using `useWizard` hook.                                                                                          |
+| `component`            | `ReactElement`                                         |         | Component used for rendering step content. Usually this is always required unless you implement default component object like in the `demo/` code.                                                                                                                                                                                |
+| `initialValues`        | `object`                                               | `{}`      | Contains key-value pairs for step's form fields.<br><br>Example:<br>`initialValues: { name: '', email: '' }`                                                                                                                                                                                                                      |
+| `submitOnChange`       | `boolean`                                              | `false`   | Submits form on field change. Useful when user e.g. has to pick a choice from  `radio` buttons.                                                                                                                                                                                                                                   |
+| `hideNext`             | `boolean`                                              | `false`   | Indicates whether to hide submit button.                                                                                                                                                                                                                                                                                          |
+| `hidePrevious`         | `boolean`                                              | `false`   | Indicates whether to hide "Previous" button.                                                                                                                                                                                                                                                                                      |
+| `disableNext`          | `boolean`                                              | `false`   | Indicates whether to disable submit button.                                                                                                                                                                                                                                                                                       |
+| `disableNextOnErrors`  | `boolean`                                              | `false`   | Indicates whether to disable submit button when form has errors.                                                                                                                                                                                                                                                                  |
+| `disablePrevious`      | `boolean`                                              | `false`   | Indicates whether to disable "Previous" button.                                                                                                                                                                                                                                                                                   |
+| `keepValuesOnPrevious` | `boolean`                                              | `true`    | Remembers inputted values in current step if user decides to navigate back to previous step without submitting the form.                                                                                                                                                                                                          |
+| `shouldSkip`           | `async (allValues, direction) => stepValues`           |         | Function that returns boolean telling whether the step should be skipped or not.<br><br>Params:<br>- `allValues`: all form field values from previous steps<br>- `direction`: Tells whether user came to the current step by pressing "Previous" (-1) or by pressing "Next" (1)                                                   |
+| `onSubmit`             | `async (stepValues, allValues, actions) => stepValues` |         | Function that serves as a custom submit handler where you can do things after successful form submission. You should return `stepValues`.<br><br>Params:<br>- `stepValues`: form field values filled in current step<br>- `allValues`: all form field values from previous steps<br>- `actions`: Includes Formik helper functions |
+| `validate`             | `(stepValues, allValues) => object`                    |         | Validate the form's values with a function. If there are errors, return object containing field's name as key and error message as value.<br><br>Params:<br>- `stepValues`: form field values filled in current step<br>- `allValues`: all form field values from previous steps                                                  |
+| `validationSchema`     | `Yup.object`                                           |         | A Yup schema. This is used for validation. Errors are mapped by key to the inner component's errors. Its keys should match of those values. Example here: [ https://formik.org/docs/guides/validation#validationschema ]( https://formik.org/docs/guides/validation#validationschema )                                            |
+| `validateOnBlur`       | `boolean`                                              | `true`    | Use this option to tell Formik to run validations on blur events.                                                                                                                                                                                                                                                                 |
+| `validateOnChange`     | `boolean`                                              | `true`    | Use this option to tell Formik to run validations on change events.                                                                                                                                                                                                                                                               |
 
 ### Wizard
 
 `Wizard` controls the step flow. Only required props is `steps` which contains a list of step config objects. You can customize the wizard by passing custom components using `header`, `wrapper` and `footer` props.
 
-| Name              | Type                            | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|-------------------|---------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `steps`           | list                            | ✅        | List of step objects. See example and configuration instructions above.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `onStepChanged` | (fromStep, toStep, wizardValues) => void | ❌        | Function that is called when user either submits currently active step or navigates back to previous step.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `onCompleted`     | (values) => void                | ❌        | Function that is called when user completes the wizard.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `header`          | ReactElement                 | ❌        | Header that is shown above the active step.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `wrapper`         | ReactElement                 | ❌        | Wrapper component that is wrapped around `step.component`. Useful if you need e.g. styling that is shared across all step components.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `footer`          | ReactElement                 | ❌        | Footer that is shown below the active step. |
-| `enableHash`      | boolean                         | ❌        | Enables URL hashes per step. Hash matches with slugified step `id` (e.g. `StepName` -> `#step-name`) and is updated accordingly every time when step is changed.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-
+| Name            | Type                                     | Description                                                                                                                                                      |
+|-----------------|------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `steps`         | `list`                                     | _**(Required)**_ List of step objects. See example and configuration instructions above.                                                                             |
+| `onStepChanged` | `(fromStep, toStep, wizardValues) => void` | Function that is called when user either submits currently active step or navigates back to previous step.                                                       |
+| `onCompleted`   | `(values) => void`                         | Function that is called when user completes the wizard.                                                                                                          |
+| `header`        | `ReactElement`                             | Header that is shown above the active step.                                                                                                                      |
+| `wrapper`       | `ReactElement`                             | Wrapper component that is wrapped around `step.component`. Useful if you need e.g. styling that is shared across all step components.                            |
+| `footer`        | `ReactElement`                             | Footer that is shown below the active step.                                                                                                                      |
+| `enableHash`    | `boolean`                                  | Enables URL hashes per step. Hash matches with slugified step `id` (e.g. `StepName` -> `#step-name`) and is updated accordingly every time when step is changed. |
 
 ### useWizard
 
@@ -504,20 +513,17 @@ List of step objects that are passed to `Wizard` have various options you can se
 
 | Name              | Type                      | Description                                                                                                                                           |
 |-------------------|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `values`            | object                    | Contains all form field values from previously completed steps. Example:<br><br>`{ StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 }` |
-| `activeStep`              | object                    | Active step object.                                                                                                                                   |
-| `stepNumber`        | number                    | Order number of currently active step. Indexing starts from 1.                                                                                        |
-| `totalSteps`        | number                    | Number of total steps.                                                                                                                                |
-| `isLoading`           | boolean                   | Is step in loading state or not. Set to `true` when `step.onSubmit` handler is called and back to `false` when executing handler is done.                                                                                                                      |
-| `isFirstStep`       | boolean                   | Is the currently active step the first step.                                                                                                          |
-| `isLastStep`        | boolean                   | Is the currently active step the last step.                                                                                                           |
-| `setHideNext`    | (truthy: boolean) => void | Function used to set the step object's value of `hideNext` attribute.                      |
-| `setDisableNext` | (truthy: boolean) => void | Function used to set the step object's value of `disableNext` attribute.               |
-| `setHidePrevious` | (truthy: boolean) => void | Function used to set the step object's value of `hidePrevious` attribute. |
-| `setDisablePrevious` | (truthy: boolean) => void | Function used to set the step object's value of `disablePrevious` attribute. |
-| `setIsLoading`     | (truthy: boolean) => void | Function used to set the value of `isLoading` attribute.                                     |
-| `goToPreviousStep`  | function                  | Go to previous step.                                                                                                                                  |
-| `goToStep`          | (index) => void           | Go to step at the specified index.                                                                                                                    |
+| `values`            | `object`                    | Contains all form field values from previously completed steps. Example:<br><br>`{ StepName: { firstName: 'John', lastName: 'Doe' }, StepAge: { age: 30 }` |
+| `activeStep`              | `object`                    | Active step object.                                                                                                                                   |
+| `stepNumber`        | `number`                    | Order number of currently active step. Indexing starts from 1.                                                                                        |
+| `totalSteps`        | `number`                    | Number of total steps.                                                                                                                                |
+| `isLoading`           | `boolean`                   | Is step in loading state or not. Set to `true` when `step.onSubmit` handler is called and back to `false` when executing handler is done.                                                                                                                      |
+| `isFirstStep`       | `boolean`                   | Is the currently active step the first step.                                                                                                          |
+| `isLastStep`        | `boolean`                   | Is the currently active step the last step.                                                                                                           |
+| `updateStep`    | `(key: string, value: any) => void` | Function used to set the step object's `[key]` attribute to `value`.                      |
+| `setIsLoading`     | `(truthy: boolean) => void` | Function used to set the value of `isLoading` attribute.                                     |
+| `goToPreviousStep`  | `() => void`                  | Go to previous step.                                                                                                                                  |
+| `goToStep`          | `(index: number) => void`           | Go to step at the specified index.                                                                                                                    |
 
 ## Advanced topics
 
@@ -533,7 +539,6 @@ You can define a `shouldSkip` function that returns boolean value in the step ob
 
 Example:
 ```js
-import React from 'react'
 import { Field, ErrorMessage } from 'formik'
 import { Wizard, useWizard } from 'react-formik-step-wizard'
 

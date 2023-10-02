@@ -66,7 +66,7 @@ function Wizard({
     if (step?.id === activeStep.id) {
       return
     }
-    handleSetActiveStep(step, formikBag.current)
+    handleSetActiveStep(step, formikBag.current!)
   }
 
   // Step resolve logic
@@ -115,16 +115,14 @@ function Wizard({
     onCompleted(values)
   }
 
-  function handleSetActiveStep(step: Step, actions: FormikHelpers<any> | null) {
+  function handleSetActiveStep(step: Step, actions: FormikHelpers<any>) {
     setActiveStep(step)
     // Immediately reset Formik with new initialValues.
     // `enableReinitialize` doesn't update Formik right away
     // with new step's initialValues, causing error message when
     // new step's <Field /> components don't match with provided
     // initialValues.
-    if (actions) {
-      actions.resetForm({ values: getInitialValues(step) })
-    }
+    actions.resetForm({ values: getInitialValues(step) })
   }
 
   async function handleNext(stepValues: object, actions: FormikHelpers<any>) {
@@ -142,17 +140,17 @@ function Wizard({
       }
       setValues(wizardValues)
       const nextStep = await _resolveNextStep(wizardValues)
+      if (!nextStep) {
+        // No next step found, wizard has been completed
+        // so let's call handleCompleted
+        handleCompleted(wizardValues)
+        return
+      }
       // Additional handler when step is changed
       if (onStepChanged) {
         onStepChanged(activeStep, nextStep, wizardValues)
       }
-      if (nextStep) {
-        handleSetActiveStep(nextStep, actions)
-      } else {
-        // No next step found, wizard has been completed
-        // so let's call handleCompleted
-        handleCompleted(wizardValues)
-      }
+      handleSetActiveStep(nextStep, actions)
     } catch (error: any) {
       console.log(error)
       setIsLoading(false)
@@ -171,13 +169,14 @@ function Wizard({
     }
     wizardValues = wizardValues || values
     const previousStep = await _resolvePreviousStep(wizardValues)
+    if (!previousStep) {
+      return
+    }
     // Additional handler when step is changed
     if (onStepChanged) {
       onStepChanged(activeStep, previousStep, wizardValues)
     }
-    if (previousStep) {
-      handleSetActiveStep(previousStep, actions)
-    }
+    handleSetActiveStep(previousStep, actions)
   }
 
   function handleValidate(validate: Step['validate']) {
@@ -194,20 +193,8 @@ function Wizard({
     handleSetActiveStep(steps[index], actions)
   }
 
-  function setHideNext(truthy: boolean) {
-    setActiveStep({ ...activeStep, hideNext: truthy })
-  }
-
-  function setDisableNext(truthy: boolean) {
-    setActiveStep({ ...activeStep, disableNext: truthy })
-  }
-
-  function setHidePrevious(truthy: boolean) {
-    setActiveStep({ ...activeStep, hidePrevious: truthy })
-  }
-
-  function setDisablePrevious(truthy: boolean) {
-    setActiveStep({ ...activeStep, disablePrevious: truthy })
+  function updateStep(key: string, value: any) {
+    setActiveStep({ ...activeStep, [key]: value })
   }
 
   // Misc
@@ -219,11 +206,8 @@ function Wizard({
     return {
       values,
       setValues,
-      setHideNext,
-      setDisableNext,
-      setHidePrevious,
-      setDisablePrevious,
       setIsLoading,
+      updateStep,
       goToPreviousStep: () => handlePrevious(props.values, props),
       goToNextStep: () => handleNext(props.values, props),
       goToStep: (index: number) => goToStep(index, props),
@@ -232,21 +216,7 @@ function Wizard({
       totalSteps,
       isLoading,
       isFirstStep,
-      isLastStep,
-      // navigation
-      hidePrevious: activeStep.hidePrevious,
-      hideNext: activeStep.hideNext,
-      disableNext: activeStep.disableNext,
-      disablePrevious: activeStep.disablePrevious,
-      disableNextOnErrors: activeStep.disableNextOnErrors && !props.isValid,
-      // allow form validation even if btn is disabled to show validation errors
-      onClickDisabledNext: (activeStep.disableNext || activeStep.disableNextOnErrors) ? async () => {
-        const res = await props.validateForm()
-        // field error is not shown after validation if "touched" attribute is not set to true
-        Object.keys(res).forEach(fieldName => {
-          props.setFieldTouched(fieldName, true, false)
-        })
-      } : undefined
+      isLastStep
     }
   }
 
