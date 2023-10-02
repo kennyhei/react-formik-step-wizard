@@ -515,7 +515,7 @@ List of step objects that are passed to `Wizard` have various options you can se
 | `isLoading`           | boolean                   | Is step in loading state or not. Set to `true` when `step.onSubmit` handler is called and back to `false` when executing handler is done.                                                                                                                      |
 | `isFirstStep`       | boolean                   | Is the currently active step the first step.                                                                                                          |
 | `isLastStep`        | boolean                   | Is the currently active step the last step.                                                                                                           |
-| `updateStepConfig`    | (key: string, value: any) => void | Function used to set the step object's `[key]` attribute to `value`.                      |
+| `updateStep`    | (key: string, value: any) => void | Function used to set the step object's `[key]` attribute to `value`.                      |
 | `setIsLoading`     | (truthy: boolean) => void | Function used to set the value of `isLoading` attribute.                                     |
 | `goToPreviousStep`  | function                  | Go to previous step.                                                                                                                                  |
 | `goToStep`          | (index) => void           | Go to step at the specified index.                                                                                                                    |

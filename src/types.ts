@@ -121,15 +121,15 @@ export interface WizardContextValues {
   goToNextStep: () => void,
   /** Go to step specified by index */
   goToStep: (index: number) => void,
-  /** Function for updating `activeStep`'s `[key]` with `value`
+  /** Function for updating `activeStep`'s `[key]` attribute with `value`
    * 
    * @example
    * ```jsx
-   * const { updateStepConfig } = useWizard()
-   * updateStepConfig('hideNext', false)
+   * const { updateStep } = useWizard()
+   * updateStep('hideNext', false)
    * ```
   */
-  updateStepConfig: (key: string, value: any) => void,
+  updateStep: (key: string, value: any) => void,
   /** Currently active step's config object */
   activeStep: StepConfig,
   /** Current index, numbering starts from 1 */

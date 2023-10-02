@@ -201,7 +201,7 @@ function Wizard({
     handleSetActiveStep(steps[index], actions)
   }
 
-  function updateStepConfig(key: string, value: any) {
+  function updateStep(key: string, value: any) {
     setActiveStep({ ...activeStep, [key]: value })
   }
 
@@ -215,7 +215,7 @@ function Wizard({
       values,
       setValues,
       setIsLoading,
-      updateStepConfig,
+      updateStep,
       goToPreviousStep: () => handlePrevious(props.values, props),
       goToNextStep: () => handleNext(props.values, props),
       goToStep: (index: number) => goToStep(index, props),
