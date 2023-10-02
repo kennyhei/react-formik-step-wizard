@@ -3,7 +3,7 @@ import { useWizard } from '@/index'
 import { AnimatePresence, motion } from 'framer-motion'
 import DefaultStepContentRenderer from './DefaultStepContentRenderer'
 import { useFormikContext } from 'formik'
-import { AppContext } from '../main'
+import { AppContext } from '../pages/DemoPage'
 
 function WizardStepWrapper() {
   const { isAnimated } = useContext(AppContext)

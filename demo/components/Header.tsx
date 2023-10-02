@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useWizard } from '@/index'
-import { AppContext } from '../main'
+import { AppContext } from '../pages/DemoPage'
 
 function Header() {
   const { isAnimated, setIsAnimated } = useContext(AppContext)

@@ -2047,6 +2047,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-sync-external-store@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
@@ -2101,6 +2106,13 @@ vue-tsc@^1.8.8:
     "@vue/language-core" "1.8.15"
     "@vue/typescript" "1.8.15"
     semver "^7.3.8"
+
+wouter@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/wouter/-/wouter-2.11.0.tgz#3db485dec158115b67330821e7673bf3e2f78678"
+  integrity sha512-Y2CzNCwIN8kHjR2Q10D+UAgQND6TvBNmwXxgYw5ltXjjTlL7cLDUDpCip3a927Svxrmxr6vJMcPUysFxSvriCw==
+  dependencies:
+    use-sync-external-store "^1.0.0"
 
 wrappy@1:
   version "1.0.2"
