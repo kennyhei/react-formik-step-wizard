@@ -386,7 +386,8 @@ function Navigation() {
     }
   } = useWizard()
   const { isValid, submitForm } = useFormikContext()
-  const isDisabled = disableNext || isLoading || (disableNextOnErrors && !isValid)
+  const isPreviousDisabled = disablePrevious || isLoading
+  const isNextDisabled = disableNext || isLoading || (disableNextOnErrors && !isValid)
 
   if (isLoading) {
     return 'Loading...'
@@ -395,11 +396,11 @@ function Navigation() {
   return (
     <div>
       {!hidePrevious && (
-        <button type="button" onClick={goToPreviousStep} disabled={disablePrevious}>Previous</button>
+        <button type="button" onClick={goToPreviousStep} disabled={isPreviousDisabled}>Previous</button>
       )}
       {!hideNext && (
-        <div onClick={isDisabled ? submitForm : undefined}>
-          <button type="submit" disabled={isDisabled}>Next</button>
+        <div onClick={isNextDisabled ? submitForm : undefined}>
+          <button type="submit" disabled={isNextDisabled}>Next</button>
         </div>
       )}
     </div>
