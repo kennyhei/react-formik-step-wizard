@@ -353,11 +353,12 @@ If you wish to include a shared navigation for all steps in your wizard, you can
 - `isFirstStep`: Boolean indicating whether step is first step.
 - `isLastStep`: Boolean indicating whether step is last step.
 - `isLoading`: Boolean indicating whether step is in loading state.
-- `activeStep.hidePrevious`: Boolean indicating whether "Previous" button should be hidden.
-- `activeStep.disablePrevious`: Boolean indicating whether "Previous" button should be disabled.
-- `activeStep.hideNext`: Boolean indicating whether "Next" button should be hidden.
-- `activeStep.disableNext`: Boolean indicating whether "Next" button should be disabled.
-- `activeStep.disableNextOnErrors`: Boolean indicating whether "Next" button should be disabled if form has errors.
+- `activeStep`:
+  - `hidePrevious`: Boolean indicating whether "Previous" button should be hidden.
+  - `disablePrevious`: Boolean indicating whether "Previous" button should be disabled.
+  - `hideNext`: Boolean indicating whether "Next" button should be hidden.
+  - `disableNext`: Boolean indicating whether "Next" button should be disabled.
+  - `disableNextOnErrors`: Boolean indicating whether "Next" button should be disabled if form has errors.
 
 Here's an example of simple navigation component:
 
