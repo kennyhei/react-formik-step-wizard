@@ -25,7 +25,7 @@ export interface StepConfig {
   */
   readonly id: string,
   /** Component used for rendering step content */
-  readonly component?: React.ReactNode,
+  readonly component?: React.ReactElement,
   /** Initial values of the step's form */
   initialValues?: {
     [field: string]: any
@@ -101,11 +101,11 @@ export interface WizardProps {
   /** Persists the current step in the URL (hash) */
   enableHash?: boolean,
   /** Optional header that is shown above the active step */
-  header?: React.ReactNode,
+  header?: React.ReactElement,
   /** Optional wrapper that is wrapped around the active step component */
-  wrapper?: React.ReactNode,
+  wrapper?: React.ReactElement,
   /** Optional footer that is shown below the active step */
-  footer?: React.ReactNode
+  footer?: React.ReactElement
 }
 
 export interface WizardContextValues {

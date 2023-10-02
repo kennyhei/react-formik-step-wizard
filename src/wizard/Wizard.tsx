@@ -30,6 +30,14 @@ function Wizard({
   wrapper,
   footer
 }: WizardProps) {
+  /*
+  TODO: Check if this makes any sense
+  steps = steps.map((step, idx) => {
+    if (step.id) { return step }
+    const type: any = step?.component?.type
+    return { ...step, id: type?.name || `step-${idx}` }
+  })
+  */
   let initialStep: Step = steps[0]
   let hashes = {}
   if (enableHash) {
