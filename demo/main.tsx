@@ -21,7 +21,7 @@ function App() {
         enableHash
         steps={steps}
         onStepChanged={(fromStep, toStep, wizardValues) => {
-          console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
+          console.log('step changed', fromStep.id, toStep.id, wizardValues)
         }}
         header={<Header />}
         wrapper={<StepWrapper />}

@@ -97,7 +97,7 @@ export interface WizardProps {
    * @param toStep Proceeding step object when function was called
    * @param allValues Object containing all form field values from previous steps
    */
-  onStepChanged?: (fromStep: StepConfig | undefined, toStep: StepConfig | undefined, allValues: WizardValues) => void,
+  onStepChanged?: (fromStep: StepConfig, toStep: StepConfig, allValues: WizardValues) => void,
   /** Persists the current step in the URL (hash) */
   enableHash?: boolean,
   /** Optional header that is shown above the active step */

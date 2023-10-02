@@ -135,7 +135,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
+        console.log('step changed', fromStep.id, toStep.id, wizardValues)
       }}
       onCompleted={values => {
         alert('wizard completed')
@@ -238,7 +238,7 @@ Now you can pass the list to `Wizard`:
 <Wizard
   steps={steps}
   onStepChanged={(fromStep, toStep, wizardValues) => {
-    console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
+    console.log('step changed', fromStep.id, toStep.id, wizardValues)
   }}
   onCompleted={values => console.log('wizard completed', values)}
 />
@@ -338,7 +338,7 @@ function App() {
     <Wizard
       steps={steps}
       onStepChanged={(fromStep, toStep, wizardValues) => {
-        console.log('step changed', fromStep?.id, toStep?.id, wizardValues)
+        console.log('step changed', fromStep.id, toStep.id, wizardValues)
       }}
       onCompleted={values => console.log('wizard completed', values)}
     />
