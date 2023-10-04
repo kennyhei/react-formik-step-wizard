@@ -834,7 +834,10 @@ const steps = [{
   id: 'StepName',
   component: <StepName />,
   onSubmit: async (stepValues, allValues, actions) => {
-    await fetch(someUrl, { method: 'POST', body: JSON.stringify({ id: 'StepName', data: stepValues }) })
+    await fetch(someUrl, {
+      method: 'POST',
+      body: JSON.stringify({ id: 'StepName', data: stepValues })
+    })
     return stepValues
   }
 }]
