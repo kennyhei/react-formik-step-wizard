@@ -31,6 +31,7 @@ React multistep wizard with Formik integration
     - [Caveats](#caveats)
   - [Creating wrapper for steps](#creating-wrapper-for-steps)
   - [Creating header for wizard](#creating-header-for-wizard)
+  - [Creating custom submit handler for step](#creating-custom-submit-handler-for-step)
 
 ## Demo
 
@@ -819,6 +820,24 @@ function App() {
 }
 ```
 
-### TODO examples
+## Creating custom submit handler for step
 
-- Defining custom submit handlers with async operations
+You can write custom submit handler for step in attribute `onSubmit` which is a function. `onSubmit` receives three parameters:
+- `stepValues`: Form field values filled in current step
+- `allValues`: All form field values from previous steps
+- `actions`: Includes Formik helper functions
+
+One use case would be to save the inputted values in backend so that user won't have to start the wizard over if e.g. page is refreshed:
+
+```js
+const steps = [{
+  id: 'StepName',
+  component: <StepName />,
+  onSubmit: async (stepValues, allValues, actions) => {
+    await fetch(someUrl, { method: 'POST', body: JSON.stringify({ id: 'StepName', data: stepValues }) })
+    return stepValues
+  }
+}]
+```
+
+Note that when `onSubmit` is called, `Wizard` sets `isLoading` to `true` and when executing `onSubmit` is done, `isLoading` is set back to `false`.
