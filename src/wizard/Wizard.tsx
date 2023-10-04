@@ -125,7 +125,7 @@ function Wizard({
     actions.resetForm({ values: getInitialValues(step) })
   }
 
-  async function handleNext(stepValues: object, actions: FormikHelpers<any>) {
+  async function handleNext(stepValues: Values, actions: FormikHelpers<any>) {
     try {
       // Run custom submit handler first
       if (activeStep.onSubmit) {
@@ -158,7 +158,7 @@ function Wizard({
     }
   }
 
-  async function handlePrevious(stepValues: object, actions: FormikHelpers<any>) {
+  async function handlePrevious(stepValues: Values, actions: FormikHelpers<any>) {
     let wizardValues = null
     if (activeStep.keepValuesOnPrevious ?? true) {
       wizardValues = {
