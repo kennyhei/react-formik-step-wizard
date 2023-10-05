@@ -227,11 +227,11 @@ function Wizard({
           <WizardContext.Provider value={context}>
             <Form>
               {header}
+              {content}
+              {footer}
               {activeStep.submitOnChange && (
                 <SubmitOnChangeListener step={activeStep} />
               )}
-              {content}
-              {footer}
             </Form>
           </WizardContext.Provider>
         )
