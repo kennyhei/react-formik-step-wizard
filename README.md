@@ -23,7 +23,6 @@ You can find more information on usage below.
   - [What if I don't want to use Formik in step component?](#what-if-i-dont-want-to-use-formik-in-step-component)
 - [Navigation](#navigation)
   - [BasicFooter](#basicfooter)
-  - [What if I want to use submit buttons directly in step component?](#what-if-i-want-to-use-submit-buttons-directly-in-step-component)
 - [API](#api)
   - [Step object](#step-object)
   - [Wizard](#wizard)
@@ -453,27 +452,6 @@ function App() {
 Note that `BasicNavigation` has two additional props `textNext` and `textPrevious` for customizing button texts. By default they are "Next" and "Previous".
 
 You can customize looks of the basic footer by defining CSS for classes `.navigation` and `.navigation-wrapper`.
-
-### What if I want to use submit buttons directly in step component?
-
-You can! Here's an example:
-
-```js
-function Step1() {
-  const { activeStep, goToPreviousStep } = useWizard()
-  const { hidePrevious, hideNext, disablePrevious, disableNext } = activeStep
-  return (
-    <div>
-      {!hidePrevious && (
-        <button type="button" onClick={goToPreviousStep} disabled={disablePrevious}>Previous</button>
-      )}
-      {!hideNext && (
-        <button type="submit" disabled={disableNext}>Next</button>
-      )}
-    </div>
-  )
-}
-```
 
 ## API
 
