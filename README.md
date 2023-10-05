@@ -59,7 +59,7 @@ Small demo showcasing the wizard and various use cases such as:
 
 NPM:
 ```
-npm install react-formik-step-wizard
+npm install react-formik-step-wizard --save
 ```
 
 Yarn:
