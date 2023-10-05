@@ -98,14 +98,11 @@ function Wizard({
     }
     // Flatten values, e.g.
     // `{ StepName: { name: 'John' }, StepAge: { age: 10 } }` => `{ name: 'John', age: 10 }`
-    let data = {}
+    let result = {}
     Object.keys(values).forEach((stepId: string | number) => {
-      data = {
-        ...data,
-        ...values[stepId]
-      }
+      result = { ...result, ...values[stepId] }
     })
-    onCompleted(data)
+    onCompleted(result)
   }
 
   function handleSetActiveStep(step: Step, actions: FormikHelpers<any>) {
