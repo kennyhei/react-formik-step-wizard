@@ -1,24 +1,9 @@
-import {
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import { WizardContext } from '../helpers/hooks'
 import SubmitOnChangeListener from '../components/SubmitOnChangeListener'
 import { buildHashSteps, resolveHashStep, updateHash } from '../helpers/hash'
 import { WizardProps, StepConfig as Step, WizardContextValues, WizardValues, Values } from '../types'
-
-function flattenValues(wizardValues: WizardValues) {
-  let data = {}
-  Object.keys(wizardValues).forEach((stepId: string | number) => {
-    data = {
-      ...data,
-      ...wizardValues[stepId]
-    }
-  })
-  return data
-}
 
 function Wizard({
   steps,
@@ -111,8 +96,16 @@ function Wizard({
     if (!onCompleted) {
       return
     }
-    values = flattenValues(values)
-    onCompleted(values)
+    // Flatten values, e.g.
+    // `{ StepName: { name: 'John' }, StepAge: { age: 10 } }` => `{ name: 'John', age: 10 }`
+    let data = {}
+    Object.keys(values).forEach((stepId: string | number) => {
+      data = {
+        ...data,
+        ...values[stepId]
+      }
+    })
+    onCompleted(data)
   }
 
   function handleSetActiveStep(step: Step, actions: FormikHelpers<any>) {
