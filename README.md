@@ -358,7 +358,7 @@ Then you can omit `initialValues` and `validationSchema` / `validate` attributes
 
 ## Navigation
 
-If you wish to include a shared navigation for all steps in your wizard, you can create your own component and pass it to `Wizard` using `footer` props. When you do that, the following properties would be useful to retrieve from `Wizard` using `useWizard` hook:
+If you wish to include a shared navigation for all steps in your wizard, you can create your own component and pass it to `Wizard` using `footer` or `header` props. When you do that, the following properties would be useful to retrieve from `Wizard` using `useWizard` hook:
 
 - `goToPreviousStep`: Function that goes to previous step.
 - `isFirstStep`: Boolean indicating whether step is first step.
