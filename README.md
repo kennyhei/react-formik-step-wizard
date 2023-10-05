@@ -4,7 +4,7 @@
 
 React multistep wizard with Formik integration.
 
-This library let's you build form wizard with multiple steps using Formik. How this works is that steps are internally wrapped inside `<Formik />` instance, allowing you to configure validation, validation strategy and initial values for each step right away and make use of Formik's helpful hooks and components like `useFormikContext`, `<Field />`, `<ErrorMessage />` and such in your step components. Form submission is handled by the wizard automatically but that is customizable to some extent as well.
+This library let's you build form wizard with multiple steps using Formik. How this works is that steps are internally wrapped inside `<Formik />` instance, allowing you to configure validation, validation strategy and initial values for each step and make use of Formik's helpful hooks and components like `useFormikContext`, `<Field />`, `<ErrorMessage />` and such in your step components. Form submission is handled by the wizard automatically but that is customizable to some extent as well.
 
 Library basically consists of [`Wizard`](#wizard) component that requires a list of [step configuration](#step-object) objects. Wizard itself collects inputted form values from each step which can be accessed anytime using [`useWizard`](#usewizard) hook.
 
