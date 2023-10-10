@@ -8,11 +8,26 @@ This library let's you build multistep form wizards using Formik. How this works
 
 Library basically consists of [`Wizard`](#wizard) component that requires a list of [step configuration](#step-object) objects. Wizard itself collects inputted form values from each step. Collected values can be accessed using [`useWizard`](#usewizard) hook.
 
+## Demo
+
+https://kennyhei.github.io/react-formik-step-wizard/
+
+Small demo showcasing the wizard and various use cases such as:
+
+- Step with basic form validation
+- Step with form where validation is dependent on what user inputted in previous view
+- Skippable step
+- Async step
+- Final step with summary of inputted data
+- Shared footer with navigation buttons
+- Shared header with progress bar
+- Animated steps
+- URL hashes
+
 You can find more information on usage below.
 
 ## Table of Contents
 
-- [Demo](#demo)
 - [Installation](#installation)
 - [Quickstart](#quickstart)
 - [How it works](#how-it-works)
@@ -37,22 +52,6 @@ You can find more information on usage below.
   - [Creating wrapper for steps](#creating-wrapper-for-steps)
   - [Creating header for wizard](#creating-header-for-wizard)
   - [Creating custom submit handler for step](#creating-custom-submit-handler-for-step)
-
-## Demo
-
-https://kennyhei.github.io/react-formik-step-wizard/
-
-Small demo showcasing the wizard and various use cases such as:
-
-- Step with basic form validation
-- Step with form where validation is dependent on what user inputted in previous view
-- Skippable step
-- Async step
-- Final step with summary of inputted data
-- Shared footer with navigation buttons
-- Shared header with progress bar
-- Animated steps
-- URL hashes
 
 ## Installation
 
