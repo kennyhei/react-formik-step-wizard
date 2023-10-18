@@ -47,7 +47,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20.7.1",
     "@types/react": "^18.2.23",
