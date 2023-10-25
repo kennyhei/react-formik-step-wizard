@@ -17,13 +17,17 @@ function DefaultStepContentRenderer({
     return value.replace(/[A-Z]/g, ' $&')
   }
 
-  function getFieldConstraints(yupSchema: any) {
-    if (!yupSchema) {
-      return
-    }
+  function getFieldConstraints(yupSchema: any, fieldType: string) {
     const constraints: any = {}
-    const schema = yupSchema
-    schema.tests.forEach((test: any) => {
+    if (fieldType === 'number') {
+      constraints.onKeyDown = (evt: any) => {
+        if (['e', 'E', '+', '-', '.', ','].includes(evt.key)) {
+          evt.preventDefault()
+        }
+      }
+    }
+    const tests: object[] = yupSchema?.tests || []
+    tests.forEach((test: any) => {
       switch (test.OPTIONS.name) {
         case 'min':
           constraints.min = test.OPTIONS.params.min || test.OPTIONS.params.more
@@ -52,7 +56,7 @@ function DefaultStepContentRenderer({
                 value={values[field]}
                 type={fields?.inputTypes[field]}
                 placeholder={fields?.placeholders?.[field]}
-                {...getFieldConstraints(validationSchema?.fields?.[field])}
+                {...getFieldConstraints(validationSchema?.fields?.[field], fields?.inputTypes[field])}
                 className='bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400'
               />
               <ErrorMessage name={field}>
