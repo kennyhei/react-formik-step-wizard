@@ -63,7 +63,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-spinners": "^0.13.8",
-    "sass": "^1.66.1",
+    "sass": "^1.69.5",
     "tailwindcss": "^3.3.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
