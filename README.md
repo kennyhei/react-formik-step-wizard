@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/react-formik-step-wizard.svg)](https://badge.fury.io/js/react-formik-step-wizard)
 
-React multistep wizard with Formik integration.
+React multistep wizard library with Formik integration.
 
 This library let's you build multistep form wizards using Formik. How this works is that steps are internally wrapped inside `<Formik />` instance, allowing you to configure validation, validation strategy and initial values for each step and make use of Formik's helpful hooks and components like `useFormikContext`, `<Field />`, `<ErrorMessage />` and such in your step components. Form submission is handled by the wizard automatically but that is customizable to some extent as well.
 
