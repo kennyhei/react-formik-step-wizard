@@ -24,9 +24,9 @@ function StepFinal() {
       <h2>Congratulations!</h2>
       <div className='flex flex-wrap gap-4 justify-between'>
         <p className='my-0'>You did it <b>{values.Username.username}</b>! 🎉<br/>Here's your input:</p>
-        <button className='btn text-white' onClick={toggle} type='button'>Toggle hideNext</button>
+        <button className='btn' onClick={toggle} type='button'>Toggle hideNext</button>
       </div>
-      <code className='text-sm sm:text-base'>
+      <code className='text-sm sm:text-base bg-transparent'>
         <pre className='mt-0'>
           {JSON.stringify(data, null, 2)}
         </pre>

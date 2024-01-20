@@ -24,6 +24,7 @@ function Navigation() {
         {/* "Previous" button */}
         {!hidePrevious && (
           <button
+            className='btn'
             onClick={goToPreviousStep}
             disabled={isFirstStep}
             type='button'
@@ -38,8 +39,9 @@ function Navigation() {
           // Main reason is to display validation errors.
           <div onClick={disableNext ? submitForm : undefined}>
             <button
-              type='submit'
+              className='btn'
               disabled={disableNext}
+              type='submit'
             >
               {isLoading && (
                 <span className='mr-1 loading'>
