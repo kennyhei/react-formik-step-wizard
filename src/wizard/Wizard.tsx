@@ -192,7 +192,7 @@ function Wizard({
     return values[step.id] || step.initialValues || {}
   }
 
-  function getContext(props: FormikProps<any>) : WizardContextValues {
+  function getContext(props: FormikProps<any>): WizardContextValues {
     return {
       values,
       setValues,

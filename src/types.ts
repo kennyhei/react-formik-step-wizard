@@ -63,7 +63,7 @@ export interface StepConfig {
    * @param actions Includes Formik helper functions
    * @returns stepValues
    */
-  onSubmit?: (stepValues: Values, allValues: WizardValues, actions : any) => Values
+  onSubmit?: (stepValues: Values, allValues: WizardValues, actions: any) => Values
   /**
    * Validation function. Must return an error object where that object's keys map to corresponding value
    * 

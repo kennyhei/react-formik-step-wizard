@@ -28,24 +28,27 @@ You can find more information on usage below.
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Quickstart](#quickstart)
-- [How it works](#how-it-works)
-  - [1. Configuring list of steps](#1-configuring-list-of-steps)
-  - [2. Writing your step component(s)](#2-writing-your-step-components)
-  - [3. Setting up the Wizard](#3-setting-up-the-wizard)
-  - [4. Full example](#4-full-example)
-  - [What if I don't want to use Formik in step component?](#what-if-i-dont-want-to-use-formik-in-step-component)
-- [Navigation](#navigation)
-  - [BasicFooter](#basicfooter)
-- [API](#api)
-  - [Step object](#step-object)
-  - [Wizard](#wizard)
-  - [useWizard](#usewizard)
-- [Advanced topics](#advanced-topics)
-  - [Skipping steps](#skipping-steps)
-  - [Validating form field based on what user inputted in previous step(s)](#validating-form-field-based-on-what-user-inputted-in-previous-steps)
-  - [Saving form values in SessionStorage](#saving-form-values-in-sessionstorage)
+- [React Formik Step Wizard](#react-formik-step-wizard)
+  - [Demo](#demo)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Quickstart](#quickstart)
+  - [How it works](#how-it-works)
+    - [1. Configuring list of steps](#1-configuring-list-of-steps)
+    - [2. Writing your step component(s)](#2-writing-your-step-components)
+    - [3. Setting up the Wizard](#3-setting-up-the-wizard)
+    - [4. Full example](#4-full-example)
+    - [What if I don't want to use Formik in step component?](#what-if-i-dont-want-to-use-formik-in-step-component)
+  - [Navigation](#navigation)
+    - [BasicFooter](#basicfooter)
+  - [API](#api)
+    - [Step object](#step-object)
+    - [Wizard](#wizard)
+    - [useWizard](#usewizard)
+  - [Advanced topics](#advanced-topics)
+    - [Skipping steps](#skipping-steps)
+    - [Validating form field based on what user inputted in previous step(s)](#validating-form-field-based-on-what-user-inputted-in-previous-steps)
+    - [Saving form values in sessionStorage](#saving-form-values-in-sessionstorage)
   - [Using URL hashes in the wizard](#using-url-hashes-in-the-wizard)
   - [Animations](#animations)
     - [Caveats](#caveats)
@@ -504,7 +507,7 @@ List of step objects that are passed to `Wizard` have various options you can se
 | `isLoading`           | `boolean`                   | Is step in loading state or not. Set to `true` when `step.onSubmit` handler is called and back to `false` when executing handler is done.                                                                                                                      |
 | `isFirstStep`       | `boolean`                   | Is the currently active step the first step.                                                                                                          |
 | `isLastStep`        | `boolean`                   | Is the currently active step the last step.                                                                                                           |
-| `updateStep`    | `(key: string, value: any) => void` | Function used to set the step object's `[key]` attribute to `value`.                      |
+| `updateStep`    | `(key: string, value: any) => void` | Function used to set the step object's `[key]` attribute to `value`. Mostly used to manually hide or disable navigational buttons (e.g. `hideNext` / `disableNext`).                      |
 | `setIsLoading`     | `(truthy: boolean) => void` | Function used to set the value of `isLoading` attribute.                                     |
 | `goToPreviousStep`  | `() => void`                  | Go to previous step.                                                                                                                                  |
 | `goToStep`          | `(index: number) => void`           | Go to step at the specified index.                                                                                                                    |
