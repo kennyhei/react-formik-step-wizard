@@ -28,9 +28,6 @@ You can find more information on usage below.
 
 ## Table of Contents
 
-- [React Formik Step Wizard](#react-formik-step-wizard)
-  - [Demo](#demo)
-  - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Quickstart](#quickstart)
   - [How it works](#how-it-works)
