@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+      --color-success: 54 211 153;
+      --su: 77.33% 0.153 163.1;
+      --suc: 77.33% 0.153 163.1;
+    }
+  }
+
 .prose {
     @apply text-gray-300;
     h2 {

@@ -6,7 +6,11 @@ export default {
     "./demo/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        success: 'rgb(var(--color-success) / <alpha-value>)',
+      }
+    },
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
