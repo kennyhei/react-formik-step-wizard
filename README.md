@@ -46,12 +46,12 @@ You can find more information on usage below.
     - [Skipping steps](#skipping-steps)
     - [Validating form field based on what user inputted in previous step(s)](#validating-form-field-based-on-what-user-inputted-in-previous-steps)
     - [Saving form values in sessionStorage](#saving-form-values-in-sessionstorage)
-  - [Using URL hashes in the wizard](#using-url-hashes-in-the-wizard)
-  - [Animations](#animations)
-    - [Caveats](#caveats)
-  - [Creating wrapper for steps](#creating-wrapper-for-steps)
-  - [Creating header for wizard](#creating-header-for-wizard)
-  - [Creating custom submit handler for step](#creating-custom-submit-handler-for-step)
+    - [Using URL hashes in the wizard](#using-url-hashes-in-the-wizard)
+    - [Animations](#animations)
+      - [Caveats](#caveats)
+    - [Creating wrapper for steps](#creating-wrapper-for-steps)
+    - [Creating header for wizard](#creating-header-for-wizard)
+    - [Creating custom submit handler for step](#creating-custom-submit-handler-for-step)
 
 ## Installation
 
@@ -679,7 +679,7 @@ return (
 )
 ```
 
-## Using URL hashes in the wizard
+### Using URL hashes in the wizard
 
 When initiating `Wizard`, you can enable URL hashes with prop `enableHash`:
 
@@ -695,11 +695,11 @@ When initiating `Wizard`, you can enable URL hashes with prop `enableHash`:
 
 Step IDs are converted into URL-friendly hashes. When user is in the first step, URL will be updated with hash `/#step-name` and when user proceeds to the next step, URL is updated with hash `/#step-age`. When refreshing page, active step will be chosen based on URL hash. If there is no hash or hash doesn't match with any step, first step is shown.
 
-## Animations
+### Animations
 
 Check `demo/components/WizardStepWrapper.jsx` on how to use `framer-motion` in your steps.
 
-### Caveats
+#### Caveats
 
 If you use animation library in your custom wrapper component, then during step change Formik logs warning `"A component is changing a controlled input to be uncontrolled."` to console. Tested with `react-spring` and `framer-motion`.
 
@@ -746,7 +746,7 @@ To my understanding, in this case the warning message is annoying but harmless. 
 
 One solution would be to combine all `initialValues` from step objects to a single one that is then passed to Formik. E.g. for every step in aforementioned example Formik would always be given `initialValues` that equals to `{ name: '', age: '' }`. However, this basically prevents from using same field names in multiple step objects. Other solution would be to prefix every initial value but that's clumsy as well.
 
-## Creating wrapper for steps
+### Creating wrapper for steps
 
 You can wrap steps by defining your own wrapper component. Here's an example:
 
@@ -775,7 +775,7 @@ function App() {
 }
 ```
 
-## Creating header for wizard
+### Creating header for wizard
 
 You can create header for wizard by defining your own header component. Here's an example:
 
@@ -803,7 +803,7 @@ function App() {
 }
 ```
 
-## Creating custom submit handler for step
+### Creating custom submit handler for step
 
 You can write custom submit handler for step in attribute `onSubmit` which is a function. `onSubmit` receives three parameters:
 - `stepValues`: Form field values filled in current step
