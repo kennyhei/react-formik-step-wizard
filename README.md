@@ -597,6 +597,8 @@ Sometimes there's a need to validate field based on what user inputted in previo
 - `stepValues`: form field values filled in current step
 - `allValues`: all form field values from previous steps
 
+If there are errors, return object containing field's name as key and error message as value.
+
 Example:
 ```js
 function StepName() {
