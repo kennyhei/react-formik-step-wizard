@@ -1,7 +1,8 @@
+import { StepConfig } from '@/index'
 import { ErrorMessage, Field } from 'formik'
 
 interface Props {
-  activeStep: any,
+  activeStep: StepConfig,
   initialValues: any,
   values: any
 }
