@@ -70,8 +70,6 @@ yarn add react-formik-step-wizard formik
 ## Quickstart
 
 ```js
-import React from 'react'
-import ReactDOM from 'react-dom/client'
 import { Wizard, useWizard, BasicFooter } from 'react-formik-step-wizard'
 import { Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -117,7 +115,7 @@ function App() {
       component: <StepName />,
       initialValues: { name: 'John' },
       validationSchema: Yup.object({
-        name: Yup.string().required('This field is required'),
+        name: Yup.string().required('Name is required'),
       }),
       hidePrevious: true
     },
@@ -126,7 +124,7 @@ function App() {
       component: <StepAge />,
       initialValues: { age: 30 },
       validationSchema: Yup.object({
-        age: Yup.number().min(0).max(125).required('This field is required')
+        age: Yup.number().positive().required('Age is required')
       })
     },
     {
@@ -151,9 +149,7 @@ function App() {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <App />
-)
+export default App
 ```
 
 ## How it works
@@ -275,7 +271,6 @@ After user has completed the wizard, `onCompleted` would print this:
 Here's what the finished code looks like:
 
 ```js
-import React from 'react'
 import { useWizard, Wizard } from 'react-formik-step-wizard'
 import { Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -349,6 +344,8 @@ function App() {
     />
   )
 }
+
+export default App
 ```
 
 ### What if I don't want to use Formik in step component?
@@ -373,7 +370,6 @@ If you wish to include a shared navigation for all steps in your wizard, you can
 Here's an example of simple navigation component:
 
 ```js
-import React from 'react'
 import { Wizard, useWizard } from 'react-formik-step-wizard'
 
 const steps = [
@@ -429,8 +425,6 @@ function App() {
 If you don't wish to create your own navigation component, a basic footer with navigation buttons is included in `react-formik-step-wizard`. Here's how you can use it:
 
 ```js
-
-import React from 'react'
 import { Wizard, BasicFooter } from 'react-formik-step-wizard'
 
 const steps = [
@@ -671,14 +665,16 @@ const steps = [{
   }
 }]
 
-return (
-  <Wizard
-    steps={steps}
-    onStepChanged={(fromStep, toStep, wizardValues) => {
-      sessionStorage.setItem('wizardValues', JSON.stringify(wizardValues))
-    }}
-  />
-)
+function App() {
+  return (
+    <Wizard
+      steps={steps}
+      onStepChanged={(fromStep, toStep, wizardValues) => {
+        sessionStorage.setItem('wizardValues', JSON.stringify(wizardValues))
+      }}
+    />
+  )
+}
 ```
 
 ### Using URL hashes in the wizard
@@ -732,9 +728,11 @@ function Wrapper() {
   )
 }
 
-return (
-  <Wizard steps={steps} wrapper={<Wrapper />} />
-)
+function App() {
+  return (
+    <Wizard steps={steps} wrapper={<Wrapper />} />
+  )
+}
 ```
 
 1. First step is rendered, internal Formik instance now has `initialValues` that equals to `{ name: '' }`
