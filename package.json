@@ -69,7 +69,7 @@
     "typescript": "^5.7.2",
     "vite": "^5.4.10",
     "vite-plugin-dts": "^3.9.1",
-    "yup": "^1.4.0"
+    "yup": "^1.6.1"
   },
   "peerDependencies": {
     "formik": ">=2.4.0",
