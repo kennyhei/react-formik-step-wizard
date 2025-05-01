@@ -54,7 +54,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
-    "daisyui": "^4.12.14",
+    "daisyui": "^4.12.24",
     "formik": "^2.4.6",
     "framer-motion": "^11.18.2",
     "gh-pages": "^6.3.0",
