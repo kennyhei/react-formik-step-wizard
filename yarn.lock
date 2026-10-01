@@ -2090,10 +2090,10 @@ react-refresh@^0.17.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.17.0.tgz#b7e579c3657f23d04eccbe4ad2e58a8ed51e7e53"
   integrity sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==
 
-react-spinners@^0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.17.0.tgz#d518913e2192afaae76c5b781929ea3bd7b1910e"
-  integrity sha512-L/8HTylaBmIWwQzIjMq+0vyaRXuoAevzWoD35wKpNTxxtYXWZp+xtgkfD7Y4WItuX0YvdxMPU79+7VhhmbmuTQ==
+react-spinners@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.17.1.tgz#1cd877bb8881527896547a256b7f8dc29249dfeb"
+  integrity sha512-YktwnYeMWpvior5/MCyl+gbFuIK98PLfsZ0sp92t15r4nMpWpXj77YyJiBiD2EM3Lcz1lNjpqICjt8gMGtxclw==
 
 react@^18.3.1:
   version "18.3.1"
